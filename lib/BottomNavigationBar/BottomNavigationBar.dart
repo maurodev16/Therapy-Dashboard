@@ -35,9 +35,9 @@ class BottomNavigationWidget extends GetView<BottomNavigationController> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.calendar_month,
+                  Icons.people_alt_outlined,
                 ),
-                label: 'Appointment',
+                label: 'Kunder',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
@@ -49,7 +49,7 @@ class BottomNavigationWidget extends GetView<BottomNavigationController> {
             selectedItemColor: azul,
             unselectedItemColor: Colors.grey,
             elevation: 0,
-            showSelectedLabels: false,
+            showSelectedLabels: true,
           ),
         );
       },

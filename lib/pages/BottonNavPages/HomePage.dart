@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:therapy_dashboard/Utils/Colors.dart';
-import 'package:therapy_dashboard/pages/BillsPage.dart';
+import 'package:therapy_dashboard/Pages/BottonNavPages/BillsPage.dart';
 
-import '../Controller/BillsController.dart';
+import '../../Controller/BillsController.dart';
+import '../AppointmentPage.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -19,6 +20,7 @@ Widget appointmentsScreen() {
     length: 3, // Define o número de abas
     child: Scaffold(
       appBar: AppBar(
+        
         title: Text(
           'Zeitpläne',
           style: TextStyle(fontSize: 15),
@@ -140,6 +142,13 @@ Widget appointmentsScreen() {
           ),
             
         ],
+      ),
+          floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.to(()=>AppointmentPage());
+        },
+        heroTag: "tgCalender",
+        child: Icon(Icons.calendar_month),
       ),
     ),
   );

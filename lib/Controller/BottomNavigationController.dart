@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:therapy_dashboard/pages/BillsPage.dart';
+import 'package:therapy_dashboard/Pages/BottonNavPages/BillsPage.dart';
+import 'package:therapy_dashboard/Pages/BottonNavPages/ClientListPage.dart';
 
-import '../pages/AppointmentPage.dart';
-import '../pages/HomePage.dart';
-import '../pages/SettingsPage.dart';
+import '../Pages/BottonNavPages/HomePage.dart';
+import '../Pages/BottonNavPages/SettingsPage.dart';
 
 class BottomNavigationController extends GetxController {
-  static BottomNavigationController  get to  => Get.find();
+  static BottomNavigationController get to => Get.find();
   var currentIndex = 0.obs;
 
-   List<Widget> pages = [
+  List<Widget> pages = [
     HomePage(),
     BillsPage(),
-    AppointmentPage(),
+    ClientListPage(),
     SettingsPage(),
   ].obs;
 
