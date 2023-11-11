@@ -20,7 +20,6 @@ Widget appointmentsScreen() {
     length: 3, // Define o número de abas
     child: Scaffold(
       appBar: AppBar(
-        
         title: Text(
           'Zeitpläne',
           style: TextStyle(fontSize: 15),
@@ -117,35 +116,29 @@ Widget appointmentsScreen() {
       ),
       body: TabBarView(
         children: [
-  
           therapyInfoCard(
             'Zahlungsstatus: Offene',
             'Britta',
             0001,
             '20. Oktober 2023',
           ),
-
-        
           therapyInfoCard(
             'Zahlungsstatus: Bezahlt ',
             'Kindermann',
             0002,
             '01. Oktober 2023',
           ),
-
-        
           therapyInfoCard(
             'Zahlungsstatus: Storniert',
             'Petter',
             0003,
             '02. Oktober 2023',
           ),
-            
         ],
       ),
-          floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(()=>AppointmentPage());
+          Get.to(() => AppointmentPage());
         },
         heroTag: "tgCalender",
         child: Icon(Icons.calendar_month),
@@ -155,7 +148,6 @@ Widget appointmentsScreen() {
 }
 
 Widget therapyInfoCard(
-
   String statusText,
   String clientName,
   int clienteNumber,

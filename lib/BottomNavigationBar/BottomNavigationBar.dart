@@ -46,7 +46,7 @@ class BottomNavigationWidget extends GetView<BottomNavigationController> {
                 label: 'Settings',
               ),
             ],
-            selectedItemColor: azul,
+            selectedItemColor: vermelho,
             unselectedItemColor: Colors.grey,
             elevation: 0,
             showSelectedLabels: true,

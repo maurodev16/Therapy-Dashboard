@@ -1,46 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:therapy_dashboard/GlobalWidgets/loadingWidget.dart';
+import 'package:therapy_dashboard/Models/UserModel.dart';
 
-class Client {
-  final String name;
-  final String email;
-  final String status;
-
-  Client({required this.name, required this.email, required this.status});
-}
-
-class ClientListController extends GetxController {
-  var clients = <Client>[
-    Client(name: 'João Silva', email: 'joao@email.com', status: 'Agendado'),
-    Client(name: 'Maria Souza', email: 'maria@email.com', status: 'Concluído'),
-    Client(name: 'Pedro Oliveira', email: 'pedro@email.com', status: 'Pendente'),
-  ].obs;
-}
-
-class ClientListPage extends StatelessWidget {
-  final controller = Get.put(ClientListController());
-
+import '../../Controller/ClientListPageController.dart';
+class ClientListPage extends GetView<ClientListController> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Obx(
+        () => Scaffold(
       appBar: AppBar(
         title: Text('Lista de Clientes'),
       ),
-      body: Obx(
-        () => ListView.builder(
-          itemCount: controller.clients.length,
+      body: controller.isLoading.value ? LoadingWidget():
+      controller.status.isEmpty?Center(child: Text("Empty"),):
+      controller.status.isError? Center(child: Text("Error"),):
+      controller.status.isSuccess?
+        ListView.builder(
+          itemCount: controller.listOfAllUsers.length,
           itemBuilder: (context, index) {
-            var client = controller.clients[index];
+            var client = controller.listOfAllUsers[index];
             return ClientCard(client: client);
           },
-        ),
-      ),
-    );
+        ):
+       SizedBox.shrink(),
+    ),);
   }
 }
 
 class ClientCard extends StatelessWidget {
-  final Client client;
+  final UserModel client;
 
   ClientCard({required this.client});
 
@@ -49,9 +38,10 @@ class ClientCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.all(10),
       child: ListTile(
-        title: Text(client.name),
-        subtitle: Text(client.email),
-        trailing: Text(client.status),
+        title: Text(client.firstname!),
+        subtitle: Text(client.lastname!),
+        trailing: Text(client.email!),
+        dense: true,
         onTap: () {
           // Navegar para a tela de detalhes do cliente ou realizar outra ação desejada.
           Get.to(() => ClientDetailsPage(client: client));
@@ -62,7 +52,7 @@ class ClientCard extends StatelessWidget {
 }
 
 class ClientDetailsPage extends StatelessWidget {
-  final Client client;
+  final UserModel client;
 
   ClientDetailsPage({required this.client});
 
@@ -77,10 +67,12 @@ class ClientDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Nome: ${client.name}'),
+            Text('First name: ${client.firstname}'),
+            Text('Last name: ${client.lastname}'),
             Text('Email: ${client.email}'),
-            Text('Status: ${client.status}'),
-            // Adicione mais detalhes conforme necessário.
+            Text('ID: ${client.userId}'),
+            Text('Created: ${client.createdAt}'),
+            Text('Updated: ${client.updatedAt}'),
           ],
         ),
       ),
@@ -88,6 +80,3 @@ class ClientDetailsPage extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp(GetMaterialApp(home: ClientListPage()));
-}

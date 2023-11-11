@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:therapy_dashboard/Models/UserModel.dart';
 
@@ -6,7 +7,7 @@ import '../IRepository/IRepositoryUser.dart';
 class RepositoryUser extends GetConnect implements IRepositoryUser {
   @override
   void onInit() async {
-    httpClient.baseUrl = "192.168.178.24/api/v1";///dotenv.env['API_URL'];
+    httpClient.baseUrl = dotenv.env['API_URL'];
     httpClient.timeout = Duration(seconds: 35);
     httpClient.addRequestModifier<dynamic>((request) {
       request.headers['Authorization'] = 'Bearer';
@@ -22,7 +23,7 @@ class RepositoryUser extends GetConnect implements IRepositoryUser {
   Future<UserModel> create(UserModel userModel) async {
     try {
       final response =
-          await httpClient.post('/user/create', body: userModel.toJson());
+          await httpClient.post('user/create', body: userModel.toJson());
 
       if (response.status.isOk) {
         final Map<String, dynamic> responseData = await response.body;
@@ -32,7 +33,7 @@ class RepositoryUser extends GetConnect implements IRepositoryUser {
 
         print("responseData::::: ${responseData['newCreatedUser']}");
 
-        print("MEU authModel::::: ${newUser.id}");
+        print("MEU authModel::::: ${newUser.userId}");
 
         return newUser;
       } else {
@@ -48,14 +49,16 @@ class RepositoryUser extends GetConnect implements IRepositoryUser {
   @override
   Future<List<UserModel>> getAllUsers() async {
     try {
-      final response = await httpClient.get("/user/fetch");
+      final response = await httpClient.get("user/fetch");
 
       if (response.status.isOk) {
         var jsonResponse = await response.body;
         List<dynamic> postList = jsonResponse;
+        print(postList);
         return postList
             .map<UserModel>((item) => UserModel.fromJson(item))
             .toList();
+
       }
 
       if (response.status.hasError) {
