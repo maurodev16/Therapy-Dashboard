@@ -13,7 +13,6 @@ class MyBinding implements Bindings {
   void dependencies() { 
     Get.put(AppointmentController());
     Get.lazyPut<BottomNavigationController>(() => BottomNavigationController());
-   
     Get.lazyPut<HomeController>(() => HomeController());
     Get.lazyPut<BillsController>(() => BillsController());
     Get.lazyPut<ClientListController>(() => ClientListController(Get.find()));

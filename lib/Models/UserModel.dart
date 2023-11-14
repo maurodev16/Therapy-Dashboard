@@ -4,6 +4,8 @@ class UserModel {
   String? lastname;
   String? email;
   String? password;
+  String? token;
+  String? userType;
   DateTime? createdAt;
   DateTime? updatedAt;
   UserModel({
@@ -12,6 +14,8 @@ class UserModel {
     this.lastname,
     this.email,
     this.password,
+    this.token,
+    this.userType,
     this.createdAt,
     this.updatedAt,
   });
@@ -23,6 +27,8 @@ class UserModel {
       lastname: json['last_name'],
       email: json['email'],
       password: json['password'],
+      token: json['token'],
+      userType: json['user_type'] = 'client',
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
     );
@@ -35,9 +41,10 @@ class UserModel {
       'last_name:': lastname,
       'email': email,
       'password': password,
-      'createdAt':createdAt,
-      'updatedAt':updatedAt,
-
+      'token': token,
+      'user_type': userType,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
     };
   }
 }

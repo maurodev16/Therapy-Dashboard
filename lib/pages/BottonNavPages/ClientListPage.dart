@@ -40,6 +40,7 @@ class ClientCard extends StatelessWidget {
       child: ListTile(
         title: Text(client.firstname!),
         subtitle: Text(client.lastname!),
+        
         trailing: Text(client.email!),
         dense: true,
         onTap: () {
