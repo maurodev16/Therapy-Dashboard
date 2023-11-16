@@ -53,7 +53,7 @@ class RepositoryUser extends GetConnect implements IRepositoryUser {
 
       if (response.status.isOk) {
         var jsonResponse = await response.body;
-        List<dynamic> postList = jsonResponse;
+        List<dynamic> postList = jsonResponse["userdata"];
         print(postList);
         return postList
             .map<UserModel>((item) => UserModel.fromJson(item))
