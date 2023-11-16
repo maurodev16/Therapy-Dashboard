@@ -1,21 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:therapy_dashboard/GlobalWidgets/loadingWidget.dart';
 import 'package:therapy_dashboard/Utils/Colors.dart';
 import 'package:therapy_dashboard/Pages/BottonNavPages/BillsPage.dart';
 
+import '../../Controller/AppointmentController.dart';
 import '../../Controller/BillsController.dart';
-import '../AppointmentPage.dart';
 
 class HomePage extends StatelessWidget {
+final AppointmentController appointmentController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: appointmentsScreen(),
+      body: FutureBuilder(
+        future: appointmentController.getAllAppoint(), // Chame o método para buscar os agendamentos
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: LoadingWidget());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            return appointmentsScreen();
+          }
+        },
+      ),
     );
   }
 }
 
 Widget appointmentsScreen() {
+final AppointmentController appointmentController = Get.find();
+
   return DefaultTabController(
     length: 3, // Define o número de abas
     child: Scaffold(
@@ -116,42 +132,43 @@ Widget appointmentsScreen() {
       ),
       body: TabBarView(
         children: [
-          therapyInfoCard(
-            'Zahlungsstatus: Offene',
-            'Britta',
-            0001,
-            '20. Oktober 2023',
-          ),
-          therapyInfoCard(
-            'Zahlungsstatus: Bezahlt ',
-            'Kindermann',
-            0002,
-            '01. Oktober 2023',
-          ),
-          therapyInfoCard(
-            'Zahlungsstatus: Storniert',
-            'Petter',
-            0003,
-            '02. Oktober 2023',
-          ),
+          for (var appointment in appointmentController.allAppoint)
+            therapyInfoCard(
+              'Zahlungsstatus: Offene',
+              appointment.date!,
+              appointment.time!,
+              appointment.userModel!.clientNumber!,
+              appointment.status!
+            ),
+            for (var appointment in appointmentController.allAppoint)
+            therapyInfoCard(
+              'Zahlungsstatus: Offene',
+              appointment.date!,
+              appointment.time!,
+              appointment.userModel!.clientNumber!,
+              appointment.status!
+            ),
+            for (var appointment in appointmentController.allAppoint)
+            therapyInfoCard(
+              'Zahlungsstatus: Offene',
+              appointment.date!,
+              appointment.time!,
+              appointment.userModel!.clientNumber!,
+              appointment.status!
+            ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(() => AppointmentPage());
-        },
-        heroTag: "tgCalender",
-        child: Icon(Icons.calendar_month),
-      ),
+     
     ),
   );
 }
 
 Widget therapyInfoCard(
   String statusText,
-  String clientName,
+  DateTime date,
+  DateTime time,
   int clienteNumber,
-  String payDate,
+  String status,
 ) {
   return Card(
     elevation: 3,
@@ -162,11 +179,15 @@ Widget therapyInfoCard(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Kunder: $clientName',
+            'date: $date',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           Text(
             'Kunder Nummer: $clienteNumber',
+            style: TextStyle(fontSize: 10),
+          ),
+           Text(
+            'Time: $time',
             style: TextStyle(fontSize: 10),
           ),
           SizedBox(height: 10),
@@ -185,8 +206,8 @@ Widget therapyInfoCard(
           ),
           SizedBox(height: 10),
           ListTile(
-            title: Text("Nächste Zahlung"),
-            subtitle: Text(payDate),
+            title: Text("Status"),
+            subtitle: Text(status),
           ),
         ],
       ),

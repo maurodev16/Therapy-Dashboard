@@ -7,11 +7,14 @@ import '../Controller/BillsController.dart';
 import '../Controller/BottomNavigationController.dart';
 import '../Controller/ClientListPageController.dart';
 import '../Controller/HomeController.dart';
+import '../IRepository/IRepositoryAppointment.dart';
+import '../Repository/RepositoryAppointment.dart';
 
 class MyBinding implements Bindings {
   @override
   void dependencies() { 
-    Get.put(AppointmentController());
+      Get.lazyPut<AppointmentController>(() => AppointmentController(Get.find()));
+    Get.lazyPut<IRepositoryAppointment>(()=>RepositoryAppointment());
     Get.lazyPut<BottomNavigationController>(() => BottomNavigationController());
     Get.lazyPut<HomeController>(() => HomeController());
     Get.lazyPut<BillsController>(() => BillsController());

@@ -33,8 +33,8 @@ class AppointmentPage extends GetView<AppointmentController> {
                 return controller.bookedDates.contains(day);
               },
               onDaySelected: (selectedDay, focusedDay) {
-               controller.selectedDay.value =
-                    selectedDay.toLocal().toString().split(' ')[0];
+               controller.selectedData.value =
+                    selectedDay;
               },
             ),
 
@@ -47,18 +47,12 @@ class AppointmentPage extends GetView<AppointmentController> {
               () => Wrap(
                 spacing: 8.0,
                 runSpacing: 8.0,
-                children:controller.availableTimes
+                children:controller.timeStrings
                     .map((time) => ElevatedButton(
                           onPressed: () {
-                           controller.selectedTime.value = time;
+                           controller.selectedTime.value =DateTime.parse(time) ;
                           },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                               controller.selectedTime.value ==
-                                        time
-                                    ? Colors.blue
-                                    : Colors.grey,
-                          ),
+                        
                           child: Text(time),
                         ))
                     .toList(),
@@ -79,7 +73,7 @@ class AppointmentPage extends GetView<AppointmentController> {
             ),
             Obx(
               () =>
-                  Text('Datum: ${controller.selectedDay.value}'),
+                  Text('Datum: ${controller.selectedData.value}'),
             ),
             Obx(
               () => Text(
