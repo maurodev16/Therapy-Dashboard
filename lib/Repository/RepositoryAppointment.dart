@@ -48,6 +48,7 @@ class RepositoryAppointment extends GetConnect
   }
   @override
   Future<List<AppointmentModel>> getAllAppoint() async {
+   
    final response = await httpClient.get('https://therapy-bv4t.onrender.com/api/v1/appointment/fetch-all-appointments');
      if (response.status.isOk) {
         var jsonResponse = await response.body;

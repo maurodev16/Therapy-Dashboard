@@ -2,6 +2,7 @@ class ServiceTypeModel {
   String? name;
   String? notes;
   ServiceTypeModel({this.name, this.notes});
+  
   factory ServiceTypeModel.fromJson(Map<String, dynamic> json) {
     return ServiceTypeModel(
       name: json['name'],

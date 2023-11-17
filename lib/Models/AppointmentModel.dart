@@ -41,10 +41,19 @@ class AppointmentModel {
           : null,
       notes: json['notes'],
       userModel: UserModel.fromJson(json['user_obj']),
-      serviceTypeModel: 
-          json['service_type_obj'],
-      paymentModel:
-          json['Payment_obj'],
+
+         serviceTypeModel: json['service_type_obj'] != null
+        ? (json['service_type_obj'] as List<dynamic>)
+            .map((serviceTypeJson) => ServiceTypeModel.fromJson(serviceTypeJson))
+            .toList()
+        : null,
+
+      paymentModel:  json['Payment_obj'] != null
+        ? (json['Payment_obj'] as List<dynamic>)
+            .map((payment) => PaymentModel.fromJson(payment))
+            .toList()
+        : null,
+
       relatedDocumentsModel:
           json['related_documents_obj'],
       isCanceled: json['is_canceled'],
@@ -59,8 +68,8 @@ class AppointmentModel {
       'time': time!.toIso8601String(),
       'notes': notes,
       'user_obj': userModel!.toJson(),
-      'service_type_obj': serviceTypeModel,
-      'Payment_obj': paymentModel,
+       'service_type_obj': serviceTypeModel?.map((serviceType) => serviceType.toJson()).toList(),
+      'Payment_obj': paymentModel?.map((payment) => payment.toJson()).toList(),
       'related_documents_obj': relatedDocumentsModel,
       'is_canceled': isCanceled,
       'status': status,
