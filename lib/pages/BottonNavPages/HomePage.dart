@@ -35,9 +35,11 @@ Widget appointmentsScreen() {
 
           ///NOTIFICATION ICON
           IconButton(
-            onPressed: () {},
+            onPressed: () async{
+           await   appointmentController.getSeparateAppoints();
+            },
             icon: Icon(
-              Icons.notifications,
+              Icons.refresh_rounded,
             ),
           ),
         ],
