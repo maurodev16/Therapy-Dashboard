@@ -54,70 +54,97 @@ Widget appointmentsScreen() {
           // ABA OPEN
 
           Container(
-              height: Get.height,
-              child: Obx(
-                () => ListView.builder(
-                  itemCount: appointmentController.openAppoint.length,
-                  itemBuilder: (context, index) {
-                    var appointment = appointmentController.openAppoint[index];
-                    return appointmentController.isLoading.value
-                        ? CircularProgressIndicator()
-                        : appointmentController.status.isEmpty
-                            ? Center(
-                                child: Text("No open appointment till now"),
+            height: Get.height,
+            child: Obx(() => appointmentController.isLoading.value
+                ? loadingWidget()
+                : appointmentController.status.isEmpty
+                    ? Center(
+                        child: Text("No open appointment till now"),
+                      )
+                    : appointmentController.status.isError
+                        ? Center(
+                            child:
+                                Text("Server is Under update, try again later"))
+                        : appointmentController.status.isSuccess
+                            ? ListView.builder(
+                                itemCount:
+                                    appointmentController.openAppoint.length,
+                                itemBuilder: (context, index) {
+                                  var appointment =
+                                      appointmentController.openAppoint[index];
+                                  return therapyInfoCard(
+                                    appointment.date!,
+                                    appointment.time!,
+                                    appointment.userModel!.clientNumber!,
+                                    appointment.status!,
+                                  );
+                                },
                               )
-                            : appointmentController.status.isError
-                                ? Center(
-                                    child: Text("No open appointment till now"))
-                                : appointmentController.status.isSuccess
-                                    ? therapyInfoCard(
-                                   
-                                        appointment.date!,
-                                        appointment.time!,
-                                        appointment.userModel!.clientNumber!,
-                                        appointment.status!,
-                                      )
-                                    : SizedBox();
-                  },
-                ),
-              )),
+                            : SizedBox()),
+          ),
 
           ///ABA DONE
           Container(
-              height: Get.height,
-              child: Obx(
-                () => ListView.builder(
-                  itemCount: appointmentController.doneAppoint.length,
-                  itemBuilder: (context, index) {
-                    var appointment = appointmentController.doneAppoint[index];
-                    return therapyInfoCard(
-                      appointment.date!,
-                      appointment.time!,
-                      appointment.userModel!.clientNumber!,
-                      appointment.status!,
-                    );
-                  },
-                ),
-              )),
+            height: Get.height,
+            child: Obx(() => appointmentController.isLoading.value
+                ? loadingWidget()
+                : appointmentController.status.isEmpty
+                    ? Center(
+                        child: Text("No open appointment till now"),
+                      )
+                    : appointmentController.status.isError
+                        ? Center(
+                            child:
+                                Text("Server is Under update, try again later"))
+                        : appointmentController.status.isSuccess
+                            ? ListView.builder(
+                                itemCount:
+                                    appointmentController.doneAppoint.length,
+                                itemBuilder: (context, index) {
+                                  var appointment =
+                                      appointmentController.doneAppoint[index];
+                                  return therapyInfoCard(
+                                    appointment.date!,
+                                    appointment.time!,
+                                    appointment.userModel!.clientNumber!,
+                                    appointment.status!,
+                                  );
+                                },
+                              )
+                            : SizedBox()),
+          ),
+
           //ABA CANCELED
           ///ABA DONE
           Container(
-              height: Get.height,
-              child: Obx(
-                () => ListView.builder(
-                  itemCount: appointmentController.canceledAppoint.length,
-                  itemBuilder: (context, index) {
-                    var appointment =
-                        appointmentController.canceledAppoint[index];
-                    return therapyInfoCard(
-                      appointment.date!,
-                      appointment.time!,
-                      appointment.userModel!.clientNumber!,
-                      appointment.status!,
-                    );
-                  },
-                ),
-              )),
+            height: Get.height,
+            child: Obx(() => appointmentController.isLoading.value
+                ? loadingWidget()
+                : appointmentController.status.isEmpty
+                    ? Center(
+                        child: Text("No open appointment till now"),
+                      )
+                    : appointmentController.status.isError
+                        ? Center(
+                            child:
+                                Text("Server is Under update, try again later"))
+                        : appointmentController.status.isSuccess
+                            ? ListView.builder(
+                                itemCount: appointmentController
+                                    .canceledAppoint.length,
+                                itemBuilder: (context, index) {
+                                  var appointment = appointmentController
+                                      .canceledAppoint[index];
+                                  return therapyInfoCard(
+                                    appointment.date!,
+                                    appointment.time!,
+                                    appointment.userModel!.clientNumber!,
+                                    appointment.status!,
+                                  );
+                                },
+                              )
+                            : SizedBox()),
+          ),
         ],
       ),
     ),
@@ -166,7 +193,7 @@ Widget therapyInfoCard(
                   color: verde,
                 ),
                 SizedBox(width: 5),
-               // Text('$firstname'),
+                // Text('$firstname'),
               ],
             ),
           ),

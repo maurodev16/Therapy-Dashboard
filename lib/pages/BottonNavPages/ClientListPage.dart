@@ -12,7 +12,7 @@ class ClientListPage extends GetView<ClientListController> {
       appBar: AppBar(
         title: Text('Lista de Clientes'),
       ),
-      body: controller.isLoading.value ? LoadingWidget():
+      body: controller.isLoading.value ? loadingWidget():
       controller.status.isEmpty?Center(child: Text("Empty"),):
       controller.status.isError? Center(child: Text("Error"),):
       controller.status.isSuccess?
