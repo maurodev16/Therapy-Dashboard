@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:therapy_dashboard/Controller/BillsController.dart';
-import 'package:therapy_dashboard/Models/BillsModel.dart';
 import 'package:therapy_dashboard/Utils/Colors.dart';
 
-class BillsPage extends StatelessWidget {
+import '../../Controller/InvoiceController.dart';
+import '../../Models/InvoiceModel.dart';
+
+class InvoicePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,16 +58,16 @@ class BillsPage extends StatelessWidget {
               child: TabBarView(
                 children: [
                   // Content of "Open" tab
-                  BillsList(status: 'Open'),
+                  InvoiceList(status: 'Open'),
 
-                  // Content of "Closed" tab
-                  BillsList(status: 'Closed'),
+                  // Content of "completed" tab
+                  InvoiceList(status: 'Completed'),
 
                   // Content of "Pending" tab
-                  BillsList(status: 'Pending'),
+                  InvoiceList(status: 'Pending'),
 
                   //Content of "Overduo" tab
-                  BillsList(status: 'OverDuo'),
+                  InvoiceList(status: 'OverDuo'),
                 ],
               ),
             ),
@@ -77,45 +78,45 @@ class BillsPage extends StatelessWidget {
   }
 }
 
-class BillsList extends StatelessWidget {
+class InvoiceList extends StatelessWidget {
   final String status;
 
-  BillsList({required this.status});
+  InvoiceList({required this.status});
 
   @override
   Widget build(BuildContext context) {
-    List<BillModel> bills = BillsController.to.getBillsByStatus(status);
+    List<InvoiceModel> invoices = InvoiceController.to.overdueInvoice;
 
     return ListView.builder(
-      itemCount: bills.length,
+      itemCount: invoices.length,
       itemBuilder: (context, index) {
-        BillModel bill = bills[index];
-        return BillCard(bill: bill);
+        InvoiceModel invoice = invoices[index];
+        return InvoiceCard(invoice: invoice);
       },
     );
   }
 }
 
-class BillCard extends StatelessWidget {
-  final BillModel bill;
+class InvoiceCard extends StatelessWidget {
+  final InvoiceModel invoice;
 
-  BillCard({required this.bill});
+  InvoiceCard({required this.invoice});
 
   @override
   Widget build(BuildContext context) {
     late Icon icon;
 
-    switch (bill.status) {
-      case 'Open':
+    switch (invoice.invoiceStatus) {
+      case 'open':
         icon = Icon(Icons.pending, color: vermelho);
         break;
-      case 'Closed':
+      case 'completed':
         icon = Icon(Icons.pending, color: verde);
         break;
-      case 'Pending':
+      case 'pending':
         icon = Icon(Icons.pending, color: azul);
         break;
-      case 'OverDuo':
+      case 'overduo':
         icon = Icon(Icons.pending, color: preto);
         break;
     }
@@ -132,10 +133,10 @@ class BillCard extends StatelessWidget {
               children: [
                 icon,
                 SizedBox(width: 5),
-                Text(bill.name),
+                Text(invoice.invoiceUrl!),
               ],
             ),
-            Text('Amount: ${bill.amount}'),
+            Text('OverDuo: ${invoice.overDuo}'),
           ],
         ),
       ),

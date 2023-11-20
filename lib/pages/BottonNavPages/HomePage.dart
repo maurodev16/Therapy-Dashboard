@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:therapy_dashboard/GlobalWidgets/loadingWidget.dart';
 import 'package:therapy_dashboard/Utils/Colors.dart';
-import 'package:therapy_dashboard/Pages/BottonNavPages/BillsPage.dart';
+import 'package:therapy_dashboard/Pages/BottonNavPages/InvoicePage.dart';
 
 import '../../Controller/AppointmentController.dart';
-import '../../Controller/BillsController.dart';
+import '../../Controller/InvoiceController.dart';
 
 class HomePage extends StatelessWidget {
   final AppointmentController appointmentController = Get.find();
@@ -31,7 +31,7 @@ Widget appointmentsScreen() {
           style: TextStyle(fontSize: 15),
         ),
         actions: [
-          actionsDotWidget(),
+          ActionsDotWidget(),
 
           ///NOTIFICATION ICON
           IconButton(
@@ -206,8 +206,8 @@ Widget therapyInfoCard(
   );
 }
 
-class actionsDotWidget extends StatelessWidget {
-  const actionsDotWidget({
+class ActionsDotWidget extends StatelessWidget {
+  const ActionsDotWidget({
     super.key,
   });
 
@@ -219,7 +219,7 @@ class actionsDotWidget extends StatelessWidget {
           tag: "tagVermelho",
           child: TextButton.icon(
             onPressed: () {
-              Get.to(() => BillsPage());
+              Get.to(() => InvoicePage());
             },
             icon: Icon(
               Icons.pending,
@@ -236,7 +236,7 @@ class actionsDotWidget extends StatelessWidget {
           tag: "tagVerde",
           child: TextButton.icon(
             onPressed: () {
-              Get.to(() => BillsPage());
+              Get.to(() => InvoicePage());
             },
             icon: Icon(
               Icons.pending,
@@ -253,7 +253,7 @@ class actionsDotWidget extends StatelessWidget {
           tag: "tagAzul",
           child: TextButton.icon(
             onPressed: () {
-              Get.to(() => BillsPage());
+              Get.to(() => InvoicePage());
             },
             icon: Icon(
               Icons.pending,
@@ -270,7 +270,7 @@ class actionsDotWidget extends StatelessWidget {
           tag: "tagPreto",
           child: TextButton.icon(
             onPressed: () {
-              Get.to(() => BillsPage());
+              Get.to(() => InvoicePage());
             },
             icon: Icon(
               Icons.pending,
@@ -278,7 +278,7 @@ class actionsDotWidget extends StatelessWidget {
               color: preto,
             ),
             label: Text(
-              "${BillsController.to.overdueBills.length.toString()}",
+              "${InvoiceController.to.overdueInvoice.length.toString()}",
               style: TextStyle(fontSize: 10, color: preto),
             ),
           ),

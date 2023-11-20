@@ -56,7 +56,7 @@ class AppointmentController extends GetxController
                   ? doneAppoint.add(appointment)
                   : appointment.status!.contains("canceled")
                       ? canceledAppoint.add(appointment)
-                      :  allAppoint;
+                      :  allAppoint.add(appointment);
         }
 
         change(response, status: RxStatus.success());
