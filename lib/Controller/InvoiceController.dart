@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:therapy_dashboard/Models/InvoiceModel.dart';
 
-class InvoiceController extends GetxController {
+class InvoiceController extends GetxController with StateMixin<List<InvoiceModel>> {
   static InvoiceController get to => Get.find();
   late final List<InvoiceModel> pendingInvoice;
   @override
@@ -15,22 +15,22 @@ class InvoiceController extends GetxController {
   List<InvoiceModel> refundRequests = <InvoiceModel>[].obs;
 
 
-  bool isPaymentDue(InvoiceModel bill) {
+  bool isPaymentDue(InvoiceModel invoice) {
     // Verifica se a data de vencimento é anterior à data atual
-    return bill.overDuo!.isBefore(DateTime.now());
+    return invoice.overDuo!.isBefore(DateTime.now());
   }
 
   // Método para separar os pagamentos vencidos e os pedidos de estorno
   Future<void> separateInvoice() async {
-    for (InvoiceModel bill in pendingInvoice) {
-      bool isDue = isPaymentDue(bill);
+    for (InvoiceModel invoice in pendingInvoice) {
+      bool isDue = isPaymentDue(invoice);
       if (isDue) {
         // Adicionar à lista de pagamentos vencidos
-        overdueInvoice.add(bill);
+        overdueInvoice.add(invoice);
       } else {
         // Adicionar à lista de pedidos de estorno (se necessário)
-        if (bill.invoiceStatus == 'refund') {
-          refundRequests.add(bill);
+        if (invoice.invoiceStatus == 'refund') {
+          refundRequests.add(invoice);
         }
       }
       update();
