@@ -3,16 +3,16 @@ import 'package:therapy_dashboard/Models/InvoiceModel.dart';
 
 class InvoiceController extends GetxController with StateMixin<List<InvoiceModel>> {
   static InvoiceController get to => Get.find();
-  late final List<InvoiceModel> pendingInvoice;
+  List<InvoiceModel> pendingInvoice = <InvoiceModel>[].obs;
+  List<InvoiceModel> overdueInvoice = <InvoiceModel>[].obs;
+  List<InvoiceModel> refundRequests = <InvoiceModel>[].obs;
   @override
   void onInit() async {
    
     await separateInvoice();
     super.onInit();
   }
-
-  List<InvoiceModel> overdueInvoice = <InvoiceModel>[].obs;
-  List<InvoiceModel> refundRequests = <InvoiceModel>[].obs;
+ 
 
 
   bool isPaymentDue(InvoiceModel invoice) {

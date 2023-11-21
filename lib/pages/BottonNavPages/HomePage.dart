@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:therapy_dashboard/GlobalWidgets/customAppBar.dart';
 import 'package:therapy_dashboard/GlobalWidgets/loadingWidget.dart';
 import 'package:therapy_dashboard/Utils/Colors.dart';
 import 'package:therapy_dashboard/Pages/BottonNavPages/InvoicePage.dart';
@@ -14,6 +15,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(),
       body: appointmentsScreen(),
     );
   }
@@ -35,8 +37,8 @@ Widget appointmentsScreen() {
 
           ///NOTIFICATION ICON
           IconButton(
-            onPressed: () async{
-           await   appointmentController.getSeparateAppoints();
+            onPressed: () async {
+              await appointmentController.getSeparateAppoints();
             },
             icon: Icon(
               Icons.refresh_rounded,
@@ -59,22 +61,22 @@ Widget appointmentsScreen() {
             height: Get.height,
             child: Obx(() => appointmentController.isLoading.value
                 ? loadingWidget()
-                : appointmentController.status.isEmpty
-                    ? Center(
-                        child: Text("No open appointment till now"),
-                      )
-                    : appointmentController.status.isError
-                        ? Center(
-                            child:
-                                Text("Server is Under update, try again later"))
-                        : appointmentController.status.isSuccess
-                            ? ListView.builder(
+                  : appointmentController.status.isEmpty
+                      ? Center(
+                          child: Icon(Icons.alarm_off_rounded, size: 40,),
+                        )
+                      : appointmentController.status.isError
+                          ? Center(child: Icon(Icons.error_outline))
+                          : appointmentController.status.isSuccess
+                              ? ListView.builder(
                                 itemCount:
                                     appointmentController.openAppoint.length,
                                 itemBuilder: (context, index) {
                                   var appointment =
                                       appointmentController.openAppoint[index];
                                   return therapyInfoCard(
+                                         appointment.userModel!.firstname!,
+                                    appointment.userModel!.lastname!,
                                     appointment.date!,
                                     appointment.time!,
                                     appointment.userModel!.clientNumber!,
@@ -86,34 +88,36 @@ Widget appointmentsScreen() {
           ),
 
           ///ABA DONE
-          Container(
+         Obx(
+              () =>  Container(
             height: Get.height,
-            child: Obx(() => appointmentController.isLoading.value
-                ? loadingWidget()
-                : appointmentController.status.isEmpty
-                    ? Center(
-                        child: Text("No open appointment till now"),
-                      )
-                    : appointmentController.status.isError
-                        ? Center(
-                            child:
-                                Text("Server is Under update, try again later"))
-                        : appointmentController.status.isSuccess
-                            ? ListView.builder(
-                                itemCount:
-                                    appointmentController.doneAppoint.length,
-                                itemBuilder: (context, index) {
-                                  var appointment =
-                                      appointmentController.doneAppoint[index];
-                                  return therapyInfoCard(
-                                    appointment.date!,
-                                    appointment.time!,
-                                    appointment.userModel!.clientNumber!,
-                                    appointment.status!,
-                                  );
-                                },
-                              )
-                            : SizedBox()),
+            child: appointmentController.isLoading.value
+                  ? loadingWidget()
+                  : appointmentController.status.isEmpty
+                      ? Center(
+                          child: Icon(Icons.alarm_off_rounded),
+                        )
+                      : appointmentController.status.isError
+                          ? Center(child: Icon(Icons.error_outline))
+                          : appointmentController.status.isSuccess
+                              ? ListView.builder(
+                                  itemCount:
+                                      appointmentController.doneAppoint.length,
+                                  itemBuilder: (context, index) {
+                                    var appointment = appointmentController
+                                        .doneAppoint[index];
+                                    return therapyInfoCard(
+                                           appointment.userModel!.firstname!,
+                                    appointment.userModel!.lastname!,
+                                      appointment.date!,
+                                      appointment.time!,
+                                      appointment.userModel!.clientNumber!,
+                                      appointment.status!,
+                                    );
+                                  },
+                                )
+                              : SizedBox(),
+            ),
           ),
 
           //ABA CANCELED
@@ -121,23 +125,23 @@ Widget appointmentsScreen() {
           Container(
             height: Get.height,
             child: Obx(() => appointmentController.isLoading.value
-                ? loadingWidget()
-                : appointmentController.status.isEmpty
-                    ? Center(
-                        child: Text("No open appointment till now"),
-                      )
-                    : appointmentController.status.isError
-                        ? Center(
-                            child:
-                                Text("Server is Under update, try again later"))
-                        : appointmentController.status.isSuccess
-                            ? ListView.builder(
+               ? loadingWidget()
+                  : appointmentController.status.isEmpty
+                      ? Center(
+                          child: Icon(Icons.alarm_off_rounded),
+                        )
+                      : appointmentController.status.isError
+                          ? Center(child: Icon(Icons.error_outline))
+                          : appointmentController.status.isSuccess
+                              ?ListView.builder(
                                 itemCount: appointmentController
                                     .canceledAppoint.length,
                                 itemBuilder: (context, index) {
                                   var appointment = appointmentController
                                       .canceledAppoint[index];
                                   return therapyInfoCard(
+                                    appointment.userModel!.firstname!,
+                                    appointment.userModel!.lastname!,
                                     appointment.date!,
                                     appointment.time!,
                                     appointment.userModel!.clientNumber!,
@@ -154,8 +158,8 @@ Widget appointmentsScreen() {
 }
 
 Widget therapyInfoCard(
-  // String firstname,
-  // String lastname,
+   String firstname,
+   String lastname,
   DateTime date,
   DateTime time,
   int clienteNumber,
@@ -169,7 +173,15 @@ Widget therapyInfoCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+           Text(
+            'Frist name: $firstname',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+            Text(
+            'Frist name: $lastname',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+           Text(
             'Termin datum: ${date.day}.${date.month}.${date.year}',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
@@ -178,7 +190,7 @@ Widget therapyInfoCard(
             style: TextStyle(fontSize: 22),
           ),
           Text(
-            'Name: $clienteNumber',
+            'Nummer: $clienteNumber',
             style: TextStyle(fontSize: 10),
           ),
           Text(

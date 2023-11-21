@@ -31,7 +31,7 @@ class ClientListController extends GetxController
         return [];
       } else {
         listOfAllUsers.refresh();
-        listOfAllUsers.addAll(response);
+        listOfAllUsers.assignAll(response);
         change(response, status: RxStatus.success());
         print("ALL USERS::::$response");
         isLoading.value = false;

@@ -4,27 +4,46 @@ import 'package:therapy_dashboard/GlobalWidgets/loadingWidget.dart';
 import 'package:therapy_dashboard/Models/UserModel.dart';
 
 import '../../Controller/ClientListPageController.dart';
+
 class ClientListPage extends GetView<ClientListController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-        () => Scaffold(
-      appBar: AppBar(
-        title: Text('Lista de Clientes'),
+      () => Scaffold(
+        appBar: AppBar(
+          title: Text('Kundenliste'),
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await controller.fetchUsers();
+              },
+              icon: Icon(
+                Icons.refresh_rounded,
+              ),
+            ),
+          ],
+        ),
+        body: controller.isLoading.value
+            ? loadingWidget()
+            : controller.status.isEmpty
+                ? Center(
+                    child: Text("Empty"),
+                  )
+                : controller.status.isError
+                    ? Center(
+                        child: Text("Error"),
+                      )
+                    : controller.status.isSuccess
+                        ? ListView.builder(
+                            itemCount: controller.listOfAllUsers.length,
+                            itemBuilder: (context, index) {
+                              var client = controller.listOfAllUsers[index];
+                              return ClientCard(client: client);
+                            },
+                          )
+                        : SizedBox.shrink(),
       ),
-      body: controller.isLoading.value ? loadingWidget():
-      controller.status.isEmpty?Center(child: Text("Empty"),):
-      controller.status.isError? Center(child: Text("Error"),):
-      controller.status.isSuccess?
-        ListView.builder(
-          itemCount: controller.listOfAllUsers.length,
-          itemBuilder: (context, index) {
-            var client = controller.listOfAllUsers[index];
-            return ClientCard(client: client);
-          },
-        ):
-       SizedBox.shrink(),
-    ),);
+    );
   }
 }
 
@@ -40,7 +59,6 @@ class ClientCard extends StatelessWidget {
       child: ListTile(
         title: Text(client.firstname!),
         subtitle: Text(client.lastname!),
-        
         trailing: Text(client.email!),
         dense: true,
         onTap: () {
@@ -68,16 +86,18 @@ class ClientDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('First name: ${client.firstname}'),
-            Text('Last name: ${client.lastname}'),
-            Text('Email: ${client.email}'),
-            Text('ID: ${client.userId}'),
-            Text('Created: ${client.createdAt}'),
-            Text('Updated: ${client.updatedAt}'),
+            Card(
+              child: ListTile(
+                title: Text('Name: ${client.firstname} ${client.lastname}'),
+                subtitle: Text('Email: ${client.email}\n\nID: ${client.clientNumber}'),
+                leading: Text(''),
+                trailing: Text('Created: ${client.invoiceQnt}'),
+                dense: true,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 }
-

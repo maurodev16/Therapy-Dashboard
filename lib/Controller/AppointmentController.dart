@@ -4,7 +4,6 @@ import 'package:get_storage/get_storage.dart';
 
 import '../IRepository/IRepositoryAppointment.dart';
 import '../Models/AppointmentModel.dart';
-import '../Models/PaymentModel.dart';
 import '../Models/RelatedDocumentsModel.dart';
 import '../Models/ServiceTypeModel.dart';
 import '../Utils/Colors.dart';
@@ -20,6 +19,18 @@ class AppointmentController extends GetxController
   RxList<AppointmentModel> canceledAppoint = <AppointmentModel>[].obs;
 
   ////
+  RxString id = ''.obs;
+  Rx<DateTime> selectedData = DateTime.now().obs;
+  Rx<DateTime> selectedTime = DateTime.now().obs;
+  RxString notes = ''.obs;
+  RxList<ServiceTypeModel> serviceTypeModel = <ServiceTypeModel>[].obs;
+  List<RelatedDocumentsModel> relatedDocumentsModel = <RelatedDocumentsModel>[];
+  RxBool isCanceled = false.obs;
+  Rx<DateTime>? createdAt;
+  Rx<DateTime>? updatedAt;
+  RxBool isLoading = false.obs;
+  RxString appointStatus = 'open'.obs;
+  late AppointmentModel appointmentData;
 
   @override
   void onInit() async {
@@ -27,20 +38,12 @@ class AppointmentController extends GetxController
     super.onInit();
   }
 
-  RxString errorMessage = "".obs;
-
   Future<List<AppointmentModel>> getSeparateAppoints() async {
     isLoading.value = true;
     try {
       var response = await _irepository.getAllAppoint();
 
-      if (response.isEmpty) {
-        change([], status: RxStatus.empty());
-        errorMessage.value = "No Appointment for this User";
-        change(null, status: RxStatus.empty());
-        // Limpe as listas existentes.
-        return [];
-      } else {
+      if (response.isNotEmpty) {
         // Limpe as listas existentes.
         allAppoint.clear();
         openAppoint.clear();
@@ -49,20 +52,23 @@ class AppointmentController extends GetxController
 
         for (AppointmentModel appointment in response) {
           allAppoint.add(appointment);
-
           appointment.status!.contains("open")
               ? openAppoint.add(appointment)
               : appointment.status!.contains("done")
                   ? doneAppoint.add(appointment)
                   : appointment.status!.contains("canceled")
                       ? canceledAppoint.add(appointment)
-                      :  allAppoint.add(appointment);
+                      : allAppoint.add(appointment);
         }
 
         change(response, status: RxStatus.success());
+      } else {
+        change([], status: RxStatus.empty());
+        // Limpe as listas existentes.
+        return [];
       }
     } catch (e) {
-      change([], status: RxStatus.error(e.toString()));
+      change([], status: RxStatus.error());
       print(e.toString());
     } finally {
       isLoading.value = false;
@@ -92,20 +98,6 @@ class AppointmentController extends GetxController
   ].obs;
 
   ///
-
-  RxString id = ''.obs;
-  Rx<DateTime> selectedData = DateTime.now().obs;
-  Rx<DateTime> selectedTime = DateTime.now().obs;
-  RxString notes = ''.obs;
-  RxList<ServiceTypeModel> serviceTypeModel = <ServiceTypeModel>[].obs;
-  RxList<PaymentModel> paymentModel = <PaymentModel>[].obs;
-  List<RelatedDocumentsModel> relatedDocumentsModel = <RelatedDocumentsModel>[];
-  RxBool isCanceled = false.obs;
-  Rx<DateTime>? createdAt;
-  Rx<DateTime>? updatedAt;
-  RxBool isLoading = false.obs;
-  RxString appointStatus = 'open'.obs;
-  late AppointmentModel appointmentData;
 
   Future<AppointmentModel?> create() async {
     isLoading.value = true;
