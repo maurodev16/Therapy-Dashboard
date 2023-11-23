@@ -164,6 +164,7 @@ Widget therapyInfoCard(
   DateTime time,
   int clienteNumber,
   String status,
+ 
 ) {
   return Card(
     elevation: 3,
