@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:therapy_dashboard/Controller/InvoiceController.dart';
+import 'package:therapy_dashboard/IRepository/IRepositoryInvoice.dart';
 import 'package:therapy_dashboard/IRepository/IRepositoryUser.dart';
+import 'package:therapy_dashboard/Repository/RepositoryInvoice.dart';
 import 'package:therapy_dashboard/Repository/RepositoryUser.dart';
 
 import '../Controller/AppointmentController.dart';
@@ -17,7 +19,8 @@ class MyBinding implements Bindings {
     Get.lazyPut<IRepositoryAppointment>(()=>RepositoryAppointment());
     Get.lazyPut<BottomNavigationController>(() => BottomNavigationController());
     Get.lazyPut<HomeController>(() => HomeController());
-    Get.lazyPut<InvoiceController>(() => InvoiceController());
+    Get.lazyPut<InvoiceController>(() => InvoiceController(Get.find()));
+     Get.lazyPut<IRepositoryInvoice>(()=>RepositoryInvoice());
     Get.lazyPut<ClientListController>(() => ClientListController(Get.find()));
 
     /// REPOSITORIES

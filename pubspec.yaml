@@ -22,7 +22,12 @@ dependencies:
   auto_size_text: ^3.0.0
   google_fonts: ^6.1.0
   intl: ^0.18.1
-  
+  expandable_text: ^2.3.0
+  image_picker: 
+  file_picker: 
+  images_picker:
+  timeago: ^3.5.0
+  advance_pdf_viewer: any
 
 dev_dependencies:
   flutter_test:

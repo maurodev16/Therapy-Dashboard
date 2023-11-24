@@ -10,6 +10,8 @@ class AppointmentModel {
   List<ServiceTypeModel>? serviceTypeModel;
   String? status;
   UserModel? canceledBy;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   AppointmentModel({
     this.id,
     this.date,
@@ -19,6 +21,8 @@ class AppointmentModel {
     this.canceledBy,
     this.serviceTypeModel,
     this.status,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory AppointmentModel.fromJson(Map<String, dynamic> json) {
@@ -29,13 +33,17 @@ class AppointmentModel {
       notes: json['notes'],
       userModel: UserModel.fromJson(json['user_obj']),
       canceledBy: json['canceled_by'] != null
-    ? UserModel.fromJson(json['canceled_by'])
-    : null,
-      serviceTypeModel: json['service_type_obj'] != null? (json['service_type_obj'] as List<dynamic>)  .map((serviceTypeJson) =>
+          ? UserModel.fromJson(json['canceled_by'])
+          : null,
+      serviceTypeModel: json['service_type_obj'] != null
+          ? (json['service_type_obj'] as List<dynamic>)
+              .map((serviceTypeJson) =>
                   ServiceTypeModel.fromJson(serviceTypeJson))
               .toList()
           : null,
       status: json['status'],
+      createdAt:json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
+      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
     );
   }
 
@@ -46,10 +54,12 @@ class AppointmentModel {
       'time': time!.toIso8601String(),
       'notes': notes,
       'user_obj': userModel!.toJson(),
-      'canceled_by':canceledBy?.userId,
+      'canceled_by': canceledBy?.userId,
       'service_type_obj':
           serviceTypeModel?.map((serviceType) => serviceType.toJson()).toList(),
       'status': status,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
     };
   }
 }
