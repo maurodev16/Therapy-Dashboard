@@ -4,12 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:therapy_dashboard/GlobalWidgets/customAppBar.dart';
 import 'package:therapy_dashboard/GlobalWidgets/loadingWidget.dart';
-import 'package:therapy_dashboard/Pages/BottonNavPages/Home/PdfViewerWidget.dart';
 import 'package:therapy_dashboard/Utils/Colors.dart';
 import 'package:therapy_dashboard/Pages/BottonNavPages/InvoicePage.dart';
 import 'package:expandable_text/expandable_text.dart';
 import '../../../Controller/AppointmentController.dart';
 import '../../../Controller/InvoiceController.dart';
+import '../../createInvoicePage.dart';
 
 class HomePage extends StatelessWidget {
   final AppointmentController appointmentController = Get.find();
@@ -119,15 +119,7 @@ Widget appointmentsScreen() {
                                                       Icons
                                                           .file_present_rounded,
                                                       color: azul),
-                                                  onPressed: () async {
-                                                    await Get.to(
-                                                      () => PdfViewerWidget(
-                                                        pdfFile:
-                                                            invoiceController
-                                                                .pickedFile!,
-                                                      ),
-                                                    );
-                                                  },
+                                                  onPressed: () async {},
                                                 ),
                                               ),
                                       );
@@ -167,35 +159,34 @@ Widget appointmentsScreen() {
                                       appointment.notes!,
                                       appointment.createdAt!,
                                       // invoiceController.getInvoiceData.value.invoiceUrl == null
-                                    Obx(() => invoiceController.pickedFile == null
-                                          ? Container(
-                                              child: IconButton(
-                                                icon: Icon(Icons.upload_file,
-                                                    color: vermelho),
-                                                onPressed: () async {
-                                                  await invoiceController
-                                                      .pickFileFromGallery();
-                                                },
+                                      Obx(
+                                        () => invoiceController.getPickedFile ==
+                                                null
+                                            ? Container(
+                                                child: IconButton(
+                                                  icon: Icon(Icons.upload_file,
+                                                      color: vermelho),
+                                                  onPressed: () async {
+                                                    InvoiceController.to
+                                                        .receiveAppointmentData(
+                                                            appointment);
+                                                    Get.to(
+                                                        () =>
+                                                            CreateInvoicePage(),
+                                                        arguments: appointment);
+                                                  },
+                                                ),
+                                              )
+                                            : Container(
+                                                child: IconButton(
+                                                  icon: Icon(
+                                                      Icons
+                                                          .file_present_rounded,
+                                                      color: azul),
+                                                  onPressed: () async {},
+                                                ),
                                               ),
-                                            )
-                                          : Container(
-                                              child: IconButton(
-                                                icon: Icon(
-                                                    Icons.file_present_rounded,
-                                                    color: azul),
-                                                onPressed: () async {
-                                                  await Get.to(
-                                                    await Get.to(
-                                                      () => PdfViewerWidget(
-                                                        pdfFile:
-                                                            invoiceController
-                                                                .pickedFile!
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ),)  ,
+                                      ),
                                     );
                                   },
                                 )
@@ -243,8 +234,12 @@ Widget appointmentsScreen() {
                                                       Icons.upload_file_rounded,
                                                       color: vermelho),
                                                   onPressed: () async {
-                                                    await invoiceController
-                                                        .pickFileFromGallery();
+                                                    Get.to(
+                                                        () =>
+                                                            CreateInvoicePage(),
+                                                        arguments: [
+                                                          {'data': appointment}
+                                                        ]);
                                                   },
                                                 ),
                                               )
@@ -253,15 +248,7 @@ Widget appointmentsScreen() {
                                                   icon: Icon(
                                                       Icons.picture_as_pdf,
                                                       color: azul),
-                                                  onPressed: () async {
-                                                    await Get.to(
-                                                      () => PdfViewerWidget(
-                                                        pdfFile:
-                                                            invoiceController
-                                                                .pickedFile!,
-                                                      ),
-                                                    );
-                                                  },
+                                                  onPressed: () async {},
                                                 ),
                                               ),
                                       );

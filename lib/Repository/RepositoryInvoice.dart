@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:therapy_dashboard/Controller/InvoiceController.dart';
 import '../IRepository/IRepositoryInvoice.dart';
 import '../Models/InvoiceModel.dart';
 import '../Models/UserModel.dart';
@@ -32,8 +33,8 @@ class RepositoryInvoice extends GetConnect implements IRepositoryInvoice {
 
       FormData formData = FormData({
         'file': multipartFile,
-        'user_obj': invoiceModel.userObj,
-        'appointment_obj': invoiceModel.appointmentObj,
+        'user_obj': "655f4e284683f00236333a66",//Admin ID
+        'appointment_obj': InvoiceController.to.appointmentModel,
         'over_duo': invoiceModel.overDuo,
       });
       final response = await httpClient.post(
