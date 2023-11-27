@@ -3,20 +3,21 @@ import 'package:get/get.dart';
 import 'package:therapy_dashboard/Models/UserModel.dart';
 
 import '../IRepository/IRepositoryUser.dart';
+import '../Utils/const_storage_keys.dart';
 
 class RepositoryUser extends GetConnect implements IRepositoryUser {
   @override
-  void onInit() async {
+   void onInit() async {
     httpClient.baseUrl = dotenv.env['API_URL'];
-      httpClient.timeout = Duration(seconds: 30);
-
+    final accessToken = StorageKeys.storagedToken;
+    httpClient.timeout = Duration(seconds: 30);
     httpClient.addRequestModifier<dynamic>((request) {
-      request.headers['Authorization'] = 'Bearer';
+      request.headers['Authorization'] = 'Bearer $accessToken';
       request.headers['Accept'] = 'application/json';
-
+      defaultContentType = "application/json; charset=utf-8";
+    
       return request;
     });
-
     super.onInit();
   }
 
@@ -34,7 +35,7 @@ class RepositoryUser extends GetConnect implements IRepositoryUser {
 
         print("responseData::::: ${responseData['newCreatedUser']}");
 
-        print("MEU authModel::::: ${newUser.userId}");
+        print("MEU authModel::::: ${newUser.adminId}");
 
         return newUser;
       } else {

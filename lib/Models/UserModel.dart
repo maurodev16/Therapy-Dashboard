@@ -3,7 +3,7 @@
 import 'InvoiceModel.dart';
 
 class UserModel {
-  String? userId;
+  String? adminId;
   int? clientNumber;
   String? firstname;
   String? lastname;
@@ -17,7 +17,7 @@ class UserModel {
   DateTime? createdAt;
   DateTime? updatedAt;
   UserModel({
-    this.userId,
+    this.adminId,
     this.clientNumber,
     this.firstname,
     this.lastname,
@@ -34,7 +34,7 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      userId: json['user_id'],
+      adminId: json['_id'],
       clientNumber: json['client_number'],
       firstname: json['first_name'],
       lastname: json['last_name'],
@@ -48,13 +48,13 @@ class UserModel {
             .toList()
         : null, 
         invoiceQnt: json['invoice_qnt'],
-      userType: json['user_type'] = 'client',
+      userType: json['user_type'] = 'admin',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'user_id': userId,
+      '_id': adminId,
       'client_number': clientNumber,
       'first_name': firstname,
       'last_name': lastname,

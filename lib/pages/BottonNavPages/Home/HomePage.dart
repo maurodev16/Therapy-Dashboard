@@ -73,12 +73,25 @@ Widget appointmentsScreen() {
                 height: Get.height,
                 child: appointmentController.isLoading.value
                     ? loadingWidget()
-                    : appointmentController.status.isEmpty
-                        ? Center(
-                            child: Icon(
-                              Icons.alarm_off_rounded,
-                              size: 40,
-                            ),
+                    : appointmentController.openAppoint.isEmpty
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Image.asset(
+                                  "assets/images/coffee-cup.png",
+                                  height: 50,
+                                  width: 50,
+                                  color: cinza,
+                                ),
+                              ),
+                              Text(
+                                "Sie haben keine neuen Termine",
+                                style: GoogleFonts.lato(
+                                  fontSize: 10,
+                                ),
+                              )
+                            ],
                           )
                         : appointmentController.status.isError
                             ? Center(child: Icon(Icons.error_outline))
@@ -134,10 +147,26 @@ Widget appointmentsScreen() {
               height: Get.height,
               child: doneAppointmentController.isLoading.value
                   ? loadingWidget()
-                  : doneAppointmentController.status.isEmpty
-                      ? Center(
-                          child: Icon(Icons.alarm_off_rounded),
-                        )
+                  : doneAppointmentController.doneAppoint.isEmpty
+                      ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Image.asset(
+                                  "assets/images/no-task.png",
+                                  height: 50,
+                                  width: 50,
+                                  color: cinza,
+                                ),
+                              ),
+                              Text(
+                                "Keine geschlossenen Termine",
+                                style: GoogleFonts.lato(
+                                  fontSize: 10,
+                                ),
+                              )
+                            ],
+                          )
                       : doneAppointmentController.status.isError
                           ? Center(child: Icon(Icons.error_outline))
                           : doneAppointmentController.status.isSuccess
@@ -201,9 +230,25 @@ Widget appointmentsScreen() {
                 height: Get.height,
                 child: canceledAppointmentController.isLoading.value
                     ? loadingWidget()
-                    : canceledAppointmentController.status.isEmpty
-                        ? Center(
-                            child: Icon(Icons.alarm_off_rounded),
+                    : canceledAppointmentController.canceledAppoint.isEmpty
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Image.asset(
+                                  "assets/images/cancelled.png",
+                                  height: 50,
+                                  width: 50,
+                                  color: cinza,
+                                ),
+                              ),
+                              Text(
+                                "Keine abgesagten Termine",
+                                style: GoogleFonts.lato(
+                                  fontSize: 10,
+                                ),
+                              )
+                            ],
                           )
                         : canceledAppointmentController.status.isError
                             ? Center(child: Icon(Icons.error_outline))
@@ -362,7 +407,7 @@ Widget therapyInfoCard(
                 style: TextStyle(fontSize: 10),
               ),
               Text(
-                'Registriert am: ${createdAt.day}.${createdAt.month}.${createdAt.year}',
+                'Erstellt am: ${createdAt.day}.${createdAt.month}.${createdAt.year}',
                 style: TextStyle(fontSize: 10),
               ),
             ],

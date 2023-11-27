@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:therapy_dashboard/Controller/InvoiceController.dart';
+import 'package:therapy_dashboard/Controller/UserController.dart';
 import '../IRepository/IRepositoryInvoice.dart';
 import '../Models/InvoiceModel.dart';
 import '../Models/UserModel.dart';
@@ -12,14 +13,13 @@ class RepositoryInvoice extends GetConnect implements IRepositoryInvoice {
   @override
   void onInit() async {
     // httpClient.baseUrl = dotenv.env['API_URL'];
-    final accessToken = StorageKeys.storagedTokenTEST;
-    //final accessToken = StorageKeys.storagedToken;
+    final accessToken = StorageKeys.storagedToken;
     httpClient.timeout = Duration(seconds: 30);
     httpClient.addRequestModifier<dynamic>((request) {
       request.headers['Authorization'] = 'Bearer $accessToken';
       request.headers['Accept'] = 'application/json';
       defaultContentType = "application/json; charset=utf-8";
-
+    
       return request;
     });
     super.onInit();
@@ -27,14 +27,16 @@ class RepositoryInvoice extends GetConnect implements IRepositoryInvoice {
 
   @override
   Future<InvoiceModel> create(InvoiceModel invoiceModel, XFile file) async {
+  final controller = Get.find<UserController>();
+
     try {
       MultipartFile multipartFile =
           MultipartFile(File(file.path), filename: file.name);
 
       FormData formData = FormData({
         'file': multipartFile,
-        'user_obj': "655f4e284683f00236333a66",//Admin ID
-        'appointment_obj': InvoiceController.to.appointmentModel,
+        'user_obj': controller.getUserData.value.adminId,
+        'appointment_obj': InvoiceController.to.appointmentModel.value.id,
         'over_duo': invoiceModel.overDuo,
       });
       final response = await httpClient.post(

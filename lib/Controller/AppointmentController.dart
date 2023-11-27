@@ -7,6 +7,7 @@ import '../Models/AppointmentModel.dart';
 import '../Models/RelatedDocumentsModel.dart';
 import '../Models/ServiceTypeModel.dart';
 import '../Utils/Colors.dart';
+import 'AuthController.dart';
 
 class AppointmentController extends GetxController
     with StateMixin<List<AppointmentModel>> {
@@ -17,6 +18,7 @@ class AppointmentController extends GetxController
   RxList<AppointmentModel> openAppoint = <AppointmentModel>[].obs;
   RxList<AppointmentModel> doneAppoint = <AppointmentModel>[].obs;
   RxList<AppointmentModel> canceledAppoint = <AppointmentModel>[].obs;
+    final auth = Get.find<AuthController>();
 
   ////
   RxString id = ''.obs;
@@ -108,7 +110,7 @@ class AppointmentController extends GetxController
         date: selectedData.value,
         time: selectedTime.value,
         notes: notes.value,
-        //userModel: authController.getUserData.value,
+        userModel: auth.getUserData.value,
         status: appointStatus.value,
       );
       AppointmentModel response = await _irepository.create(appointmentData);
