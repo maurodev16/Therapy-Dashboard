@@ -103,6 +103,7 @@ Widget widgetAppointmentsHome() {
                                   itemBuilder: (context, index) {
                                     var appointment = appointmentController
                                         .openAppoint[index];
+
                                     return widgetTherapyInfoCard(
                                       appointment.userModel!.firstname!,
                                       appointment.userModel!.lastname!,
@@ -113,69 +114,48 @@ Widget widgetAppointmentsHome() {
                                       appointment.userModel!.phone!,
                                       appointment.notes!,
                                       appointment.createdAt!,
-                                      Obx(
-                                        () => invoiceController.getPickedFile ==
-                                                null
-                                            ? Container(
-                                                child: Stack(
-                                                  alignment: Alignment.topRight,
-                                                  children: [
-                                                    IconButton(
-                                                      icon: Icon(
-                                                        Icons.file_present,
-                                                        color: appointment
-                                                                    .invoicesModel!
-                                                                    .length >
-                                                                0
-                                                            ? azul
-                                                            : vermelho,
-                                                      ),
-                                                      onPressed: () async {
-                                                        InvoiceController.to
-                                                            .receiveAppointmentData(
-                                                                appointment);
-                                                        Get.to(
-                                                            () =>
-                                                                CreateInvoicePage(),
-                                                            arguments:
-                                                                appointment);
-                                                      },
-                                                    ),
-                                                    // Adicione aqui o widget do badge (por exemplo, um círculo vermelho com um número)
-                                                    appointment.invoicesModel!
-                                                                .length >
-                                                            0
-                                                        ? Container(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    4.0),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: azul,
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                            ),
-                                                            child: Text(
-                                                              '${appointment.invoiceQnt ?? ""}',
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                            ),
-                                                          )
-                                                        : Container(),
-                                                  ],
-                                                ),
-                                              )
-                                            : Container(
-                                                child: IconButton(
-                                                  icon: Icon(
-                                                      Icons
-                                                          .file_present_rounded,
-                                                      color: azul),
-                                                  onPressed: () async {},
-                                                ),
+                                      Container(
+                                        child: Stack(
+                                          alignment: Alignment.topRight,
+                                          children: [
+                                            IconButton(
+                                              icon: Icon(
+                                                Icons.file_present,
+                                                color: appointment
+                                                        .invoicesModel!
+                                                        .isNotEmpty
+                                                    ? azul
+                                                    : vermelho,
                                               ),
+                                              onPressed: () async {
+                                                InvoiceController.to
+                                                    .receiveAppointmentData(
+                                                        appointment);
+                                                Get.to(
+                                                    () => CreateInvoicePage(),
+                                                    arguments: appointment);
+                                              },
+                                            ),
+                                            // Adicione aqui o widget do badge (por exemplo, um círculo vermelho com um número)
+                                            appointment
+                                                    .invoicesModel!.isNotEmpty
+                                                ? Container(
+                                                    padding:
+                                                        EdgeInsets.all(4.0),
+                                                    decoration: BoxDecoration(
+                                                      color: azul,
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: Text(
+                                                      '${appointment.invoiceQnt}',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Container(),
+                                          ],
+                                        ),
                                       ),
                                     );
                                   },
@@ -255,7 +235,15 @@ Widget widgetAppointmentsHome() {
                                                       Icons
                                                           .file_present_rounded,
                                                       color: azul),
-                                                  onPressed: () async {},
+                                                  onPressed: () async {
+                                                    InvoiceController.to
+                                                        .receiveAppointmentData(
+                                                            appointment);
+                                                    Get.to(
+                                                      () => CreateInvoicePage(),
+                                                      arguments: appointment,
+                                                    );
+                                                  },
                                                 ),
                                               ),
                                       ),
