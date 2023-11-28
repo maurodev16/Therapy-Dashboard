@@ -29,6 +29,9 @@ dependencies:
   timeago: ^3.5.0
   advance_pdf_viewer: any
   font_awesome_flutter: ^10.6.0
+  flutter_webview_plugin: any
+  
+
 
 dev_dependencies:
   flutter_test:

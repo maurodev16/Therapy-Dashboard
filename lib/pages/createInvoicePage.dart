@@ -1,5 +1,5 @@
-import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_dashboard/Controller/InvoiceController.dart';
@@ -211,7 +211,7 @@ class CreateInvoicePage extends StatelessWidget {
                                           await _showPdfPopup(
                                               context, invoice.invoiceUrl!);
                                         },
-                                        child: Text('Download'),
+                                        child: Text('Rechnung Viewer'),
                                       ),
                                       Divider(), // Adicione uma linha de divisão entre as faturas
                                     ],
@@ -241,25 +241,34 @@ String extractFileName(String url) {
 }
 
 Future<void> _showPdfPopup(BuildContext context, String pdfUrl) async {
-  PDFDocument document = await PDFDocument.fromURL(pdfUrl);
-
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text("PDF Viewer"),
+        title: Text("Rechnung Viewer"),
         content: Container(
           width: double.maxFinite,
-          height: 400,
-          child: PDFViewer(document: document),
+          height: Get.width,
+          child: WebviewScaffold(
+            url: pdfUrl,
+            withZoom: true,
+            withLocalStorage: true,
+            hidden: true,
+            allowFileURLs: true,
+            withLocalUrl: true,
+          ),
         ),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text("Close"),
+            child: Text("Schließen"),
           ),
+          IconButton(
+            icon: Icon(Icons.download),
+            onPressed: () {},
+          )
         ],
       );
     },
