@@ -57,9 +57,9 @@ class ClientCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.all(10),
       child: ListTile(
-        title: Text(client.firstname??""),
-        subtitle: Text(client.lastname??""),
-        trailing: Text(client.email??""),
+        title: Text(client.firstname ?? ""),
+        subtitle: Text(client.lastname ?? ""),
+        trailing: Text(client.email ?? ""),
         dense: true,
         onTap: () {
           // Navegar para a tela de detalhes do cliente ou realizar outra ação desejada.
@@ -89,9 +89,10 @@ class ClientDetailsPage extends StatelessWidget {
             Card(
               child: ListTile(
                 title: Text('Name: ${client.firstname} ${client.lastname}'),
-                subtitle: Text('Email: ${client.email}\n\nID: ${client.clientNumber}'),
+                subtitle: Text(
+                    'Email: ${client.email}\n\nID: ${client.clientNumber}'),
                 leading: Text(''),
-                trailing: Text('Created: ${client.invoiceQnt}'),
+                trailing: Text('Created: ${client.createdAt}'),
                 dense: true,
               ),
             ),

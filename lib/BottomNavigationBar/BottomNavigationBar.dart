@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:therapy_dashboard/Utils/Colors.dart';
 
@@ -26,32 +27,28 @@ class BottomNavigationWidget extends GetView<BottomNavigationController> {
             },
             items: [
               BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home,
-                ),
+                icon: FaIcon(FontAwesomeIcons.house),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
                 icon: Stack(
                   children: [
-                    Icon(
-                      Icons.euro,
-                    ),
+                    FaIcon(FontAwesomeIcons.fileInvoice),
                   ],
                 ),
-                label: 'Bills',
+                label: 'Rechnungen',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.people_alt_outlined,
                 ),
-                label: 'Kunder',
+                label: 'Kunden',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.settings,
+                  Icons.settings_applications_outlined,
                 ),
-                label: 'Settings',
+                label: 'Einstellungen',
               ),
             ],
             selectedItemColor: vermelho,

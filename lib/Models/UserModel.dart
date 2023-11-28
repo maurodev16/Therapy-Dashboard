@@ -1,7 +1,3 @@
-
-
-import 'InvoiceModel.dart';
-
 class UserModel {
   String? adminId;
   int? clientNumber;
@@ -12,8 +8,6 @@ class UserModel {
   String? phone;
   String? token;
   String? userType;
-  List<InvoiceModel>? invoiceObj;
-  int? invoiceQnt;
   DateTime? createdAt;
   DateTime? updatedAt;
   UserModel({
@@ -25,8 +19,6 @@ class UserModel {
     this.phone,
     this.token,
     this.userType,
-    this.invoiceObj,
-    this.invoiceQnt,
     this.password,
     this.createdAt,
     this.updatedAt,
@@ -42,12 +34,6 @@ class UserModel {
       phone: json['phone'],
       password: json['password'],
       token: json['token'],
-      invoiceObj:json['invoice_obj'] != null
-        ? (json['invoice_obj'] as List<dynamic>)
-            .map((serviceTypeJson) => InvoiceModel.fromJson(serviceTypeJson))
-            .toList()
-        : null, 
-        invoiceQnt: json['invoice_qnt'],
       userType: json['user_type'] = 'admin',
     );
   }
@@ -62,8 +48,6 @@ class UserModel {
       'phone': phone,
       'password': password,
       'token': token,
-      'invoice_obj': invoiceObj,
-      'invoice_qnt':invoiceQnt,
       'user_type': userType,
     };
   }

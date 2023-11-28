@@ -24,32 +24,33 @@ class InvoicePage extends StatelessWidget {
               child: TabBar(
                 tabs: [
                   Tab(
-                      text: 'Offene',
-                      icon: Hero(
-                        tag: "tagVermelho",
-                        child: Icon(
-                          Icons.pending,
-                          color: vermelho,
-                          size: 15,
-                        ),
-                      )),
+                    text: 'Offene',
+                    icon: Hero(
+                      tag: "tagVermelho",
+                      child: Icon(
+                        Icons.pending,
+                        color: verde,
+                        size: 25,
+                      ),
+                    ),
+                  ),
                   Tab(
                     text: 'Bezahlt',
                     icon: Hero(
                       tag: "tgVerde",
-                      child: Icon(Icons.pending, color: verde, size: 15),
+                      child: Icon(Icons.pending, color: amarelo, size: 25),
                     ),
                   ),
                   Tab(
                       text: 'Storniert',
                       icon: Hero(
                           tag: "tagAzul",
-                          child: Icon(Icons.pending, color: azul, size: 15))),
+                          child: Icon(Icons.pending, color: azul, size: 25))),
                   Tab(
                       text: 'überfällig',
                       icon: Hero(
                         tag: "tagPreto",
-                        child: Icon(Icons.pending, color: preto, size: 15),
+                        child: Icon(Icons.pending, color: preto, size: 25),
                       )),
                 ],
               ),
@@ -85,7 +86,7 @@ class InvoiceList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<InvoiceModel> invoices = InvoiceController.to.overdueInvoice;
+    List<InvoiceModel> invoices = InvoiceController.to.overdueInvoices;
 
     return ListView.builder(
       itemCount: invoices.length,

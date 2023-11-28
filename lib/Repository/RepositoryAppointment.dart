@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
 import '../IRepository/IRepositoryAppointment.dart';
@@ -8,16 +9,15 @@ import '../Utils/const_storage_keys.dart';
 class RepositoryAppointment extends GetConnect
     implements IRepositoryAppointment {
   @override
-
-   void onInit() async {
-    // httpClient.baseUrl = dotenv.env['API_URL'];
+  void onInit() async {
+    httpClient.baseUrl = dotenv.env['API_URL'];
     final accessToken = StorageKeys.storagedToken;
     httpClient.timeout = Duration(seconds: 30);
     httpClient.addRequestModifier<dynamic>((request) {
       request.headers['Authorization'] = 'Bearer $accessToken';
       request.headers['Accept'] = 'application/json';
       defaultContentType = "application/json; charset=utf-8";
-    
+
       return request;
     });
     super.onInit();
@@ -26,8 +26,7 @@ class RepositoryAppointment extends GetConnect
   @override
   Future<AppointmentModel> create(AppointmentModel appointmentModel) async {
     try {
-      final response = await httpClient.post(
-          'https://therapy-bv4t.onrender.com/api/v1/appointment/create-appointment',
+      final response = await httpClient.post('appointment/create-appointment',
           body: appointmentModel.toJson());
 
       if (response.status.isOk) {
@@ -50,8 +49,7 @@ class RepositoryAppointment extends GetConnect
 
   @override
   Future<List<AppointmentModel>> getAllAppoint() async {
-    final response = await httpClient.get(
-        'https://therapy-bv4t.onrender.com/api/v1/appointment/fetch-all-appointments');
+    final response = await httpClient.get('appointment/fetch-all-appointments');
     if (response.status.isOk) {
       var jsonResponse = await response.body;
       List<dynamic> postList = jsonResponse;

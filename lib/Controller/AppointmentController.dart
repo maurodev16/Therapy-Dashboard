@@ -4,7 +4,6 @@ import 'package:get_storage/get_storage.dart';
 
 import '../IRepository/IRepositoryAppointment.dart';
 import '../Models/AppointmentModel.dart';
-import '../Models/RelatedDocumentsModel.dart';
 import '../Models/ServiceTypeModel.dart';
 import '../Utils/Colors.dart';
 import 'AuthController.dart';
@@ -18,7 +17,7 @@ class AppointmentController extends GetxController
   RxList<AppointmentModel> openAppoint = <AppointmentModel>[].obs;
   RxList<AppointmentModel> doneAppoint = <AppointmentModel>[].obs;
   RxList<AppointmentModel> canceledAppoint = <AppointmentModel>[].obs;
-    final auth = Get.find<AuthController>();
+  final auth = Get.find<AuthController>();
 
   ////
   RxString id = ''.obs;
@@ -26,7 +25,6 @@ class AppointmentController extends GetxController
   Rx<DateTime> selectedTime = DateTime.now().obs;
   RxString notes = ''.obs;
   RxList<ServiceTypeModel> serviceTypeModel = <ServiceTypeModel>[].obs;
-  List<RelatedDocumentsModel> relatedDocumentsModel = <RelatedDocumentsModel>[];
   RxBool isCanceled = false.obs;
   Rx<DateTime>? createdAt;
   Rx<DateTime>? updatedAt;

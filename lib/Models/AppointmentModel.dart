@@ -1,3 +1,5 @@
+import 'package:therapy_dashboard/Models/InvoiceModel.dart';
+
 import 'ServiceTypeModel.dart';
 import 'UserModel.dart';
 
@@ -6,6 +8,8 @@ class AppointmentModel {
   DateTime? date;
   DateTime? time;
   String? notes;
+  List<InvoiceModel>? invoicesModel;
+  int? invoiceQnt;
   UserModel? userModel;
   List<ServiceTypeModel>? serviceTypeModel;
   String? status;
@@ -17,6 +21,8 @@ class AppointmentModel {
     this.date,
     this.time,
     this.notes,
+    this.invoicesModel,
+    this.invoiceQnt,
     this.userModel,
     this.canceledBy,
     this.serviceTypeModel,
@@ -31,6 +37,12 @@ class AppointmentModel {
       date: json['date'] != null ? DateTime.parse(json['date']) : null,
       time: json['time'] != null ? DateTime.parse(json['time']) : null,
       notes: json['notes'],
+      invoicesModel: json['invoice_obj'] != null
+          ? (json['invoice_obj'] as List<dynamic>)
+              .map((invoiceObjJson) => InvoiceModel.fromJson(invoiceObjJson))
+              .toList()
+          : null,
+      invoiceQnt: json['invoice_qnt'],
       userModel: UserModel.fromJson(json['user_obj']),
       canceledBy: json['canceled_by'] != null
           ? UserModel.fromJson(json['canceled_by'])
@@ -42,8 +54,10 @@ class AppointmentModel {
               .toList()
           : null,
       status: json['status'],
-      createdAt:json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
-      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+      createdAt:
+          json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
+      updatedAt:
+          json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
     );
   }
 
@@ -53,6 +67,9 @@ class AppointmentModel {
       'date': date!.toIso8601String(),
       'time': time!.toIso8601String(),
       'notes': notes,
+      'invoice_obj':
+          invoicesModel?.map((invoices) => invoices.toJson()).toList(),
+      'invoice_qnt': invoiceQnt,
       'user_obj': userModel!.toJson(),
       'canceled_by': canceledBy?.adminId,
       'service_type_obj':

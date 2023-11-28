@@ -28,6 +28,7 @@ dependencies:
   images_picker:
   timeago: ^3.5.0
   advance_pdf_viewer: any
+  font_awesome_flutter: ^10.6.0
 
 dev_dependencies:
   flutter_test:

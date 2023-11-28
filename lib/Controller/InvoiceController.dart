@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:therapy_dashboard/IRepository/IRepositoryInvoice.dart';
 import 'package:therapy_dashboard/Models/InvoiceModel.dart';
+import 'package:therapy_dashboard/pages/BottonNavPages/InvoicePage.dart';
 
 import '../Models/AppointmentModel.dart';
 import '../Utils/Colors.dart';
@@ -16,12 +17,14 @@ class InvoiceController extends GetxController
   final IRepositoryInvoice _repositoryInvoice;
   InvoiceController(this._repositoryInvoice);
   static InvoiceController get to => Get.find();
-  List<InvoiceModel> allInvoice = <InvoiceModel>[].obs;
-  List<InvoiceModel> pendingInvoice = <InvoiceModel>[].obs;
-  List<InvoiceModel> overdueInvoice = <InvoiceModel>[].obs;
-  List<InvoiceModel> refundRequests = <InvoiceModel>[].obs;
+  List<InvoiceModel> allInvoices = <InvoiceModel>[].obs;
+  List<InvoiceModel> openInvoices = <InvoiceModel>[].obs;
+  List<InvoiceModel> doneInvoices = <InvoiceModel>[].obs;
+  List<InvoiceModel> stornedInvoices = <InvoiceModel>[].obs;
+  List<InvoiceModel> overdueInvoices = <InvoiceModel>[].obs;
+
   RxString pickedFilename = "".obs;
- Rx<DateTime> rxOverduo= DateTime.now().obs;
+  Rx<DateTime> rxOverduo = DateTime.now().obs;
   RxBool isLoading = false.obs;
   @override
   void onInit() async {
@@ -41,35 +44,46 @@ class InvoiceController extends GetxController
 
   Future<InvoiceModel> createInvoice() async {
     isLoading.value = true;
-    if (_pickedFile.value != null) {
-    
-      final invoiceModel = InvoiceModel(
-        userObj: appointmentModel.value.userModel,
-        appointmentObj: appointmentModel.value,
-        overDuo: rxOverduo.value,
-      ).obs;
-      InvoiceModel? createdInvoice = await _repositoryInvoice.create(
-          invoiceModel.value, _pickedFile.value!);
-      print('Novo invoice ID: ${createdInvoice.id}');
-      change([], status: RxStatus.success());
-      Fluttertoast.showToast(
-        msg: "Sucesso",
-        gravity: ToastGravity.TOP,
-        backgroundColor: preto,
-        fontSize: 12,
-        textColor: vermelho,
-      );
-      _invoiceModel.update((invoice) {
-        invoice!.id = createdInvoice.id;
-        invoice.createBy = createdInvoice.createBy;
-        invoice.invoiceUrl = createdInvoice.invoiceUrl;
-        invoice.overDuo = createdInvoice.overDuo;
-        invoice.invoiceStatus = createdInvoice.invoiceStatus;
-        invoice.appointmentObj = createdInvoice.appointmentObj;
-        invoice.userObj = createdInvoice.userObj;
-      });
-      return createdInvoice;
+    try {
+      if (_pickedFile.value != null) {
+        final invoiceModel = InvoiceModel(
+          userObj: appointmentModel.value.userModel,
+          appointmentObj: appointmentModel.value,
+          overDuo: rxOverduo.value,
+        ).obs;
+        InvoiceModel? createdInvoice = await _repositoryInvoice.create(
+            invoiceModel.value, _pickedFile.value!);
+        if (createdInvoice.id!.isNotEmpty) {
+          change([], status: RxStatus.success());
+          Fluttertoast.showToast(
+            msg:
+                "Rechnung erfolgreich an Benutzer ${createdInvoice.appointmentObj!.userModel!.lastname} gesendet.",
+            gravity: ToastGravity.TOP,
+            backgroundColor: preto,
+            fontSize: 12,
+            textColor: vermelho,
+          );
+          Get.to(() => InvoicePage());
+          print('Novo invoice ID: ${createdInvoice.id}');
+          _invoiceModel.update((invoice) {
+            invoice!.id = createdInvoice.id;
+            invoice.createBy = createdInvoice.createBy;
+            invoice.invoiceUrl = createdInvoice.invoiceUrl;
+            invoice.overDuo = createdInvoice.overDuo;
+            invoice.invoiceStatus = createdInvoice.invoiceStatus;
+            invoice.appointmentObj = createdInvoice.appointmentObj;
+            invoice.userObj = createdInvoice.userObj;
+          });
+          print(createdInvoice);
+          return createdInvoice;
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      isLoading.value = false;
     }
+
     return _invoiceModel.value;
   }
 
@@ -136,15 +150,15 @@ class InvoiceController extends GetxController
 
   // Método para separar os pagamentos vencidos e os pedidos de estorno
   Future<void> separateInvoice() async {
-    for (InvoiceModel invoice in pendingInvoice) {
+    for (InvoiceModel invoice in allInvoices) {
       bool isDue = isPaymentDue(invoice);
       if (isDue) {
         // Adicionar à lista de pagamentos vencidos
-        overdueInvoice.add(invoice);
+        overdueInvoices.add(invoice);
       } else {
         // Adicionar à lista de pedidos de estorno (se necessário)
-        if (invoice.invoiceStatus == 'refund') {
-          refundRequests.add(invoice);
+        if (invoice.invoiceStatus == 'open') {
+          stornedInvoices.add(invoice);
         }
       }
       update();
