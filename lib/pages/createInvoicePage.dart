@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:therapy_dashboard/Controller/InvoiceController.dart';
 import 'package:therapy_dashboard/GlobalWidgets/loadingWidget.dart';
 import 'package:therapy_dashboard/Models/AppointmentModel.dart';
@@ -150,75 +150,79 @@ class CreateInvoicePage extends StatelessWidget {
                       //*************************** */
                       Column(
                         children: [
-                          ExpansionTile(
-                            title: Text(
-                              'Rechnungen von Kunden: ${appointment.userModel!.lastname}',
-                              style: GoogleFonts.lato(
-                                fontSize: 12,
+                          Badge.count(
+                            count: appointment.invoiceQnt ?? 0,
+                            backgroundColor: vermelho,
+                            child: ExpansionTile(
+                              title: Text(
+                                'Rechnungen von Kunden: ${appointment.userModel!.lastname}',
+                                style: GoogleFonts.lato(
+                                  fontSize: 12,
+                                ),
                               ),
+                              children: [
+                                // Lista de Faturas
+                                ListView.builder(
+                                  primary: false,
+                                  shrinkWrap: true,
+                                  itemCount: appointment.invoicesModel!.length,
+                                  itemBuilder: (context, index) {
+                                    InvoiceModel invoice =
+                                        appointment.invoicesModel![index];
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            // Ícone para o status da fatura (open, completed, etc.)
+                                            invoice.overDuo!
+                                                    .isAfter(DateTime.now())
+                                                ? Icon(Icons.pending,
+                                                    color: preto)
+                                                : Icon(Icons.pending,
+                                                    color: verde),
+                                            SizedBox(width: 5),
+                                            Expanded(
+                                              child: Text(
+                                                "${extractFileName(invoice.invoiceUrl!)}",
+                                                style: GoogleFonts.lato(
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        invoice.overDuo!
+                                                    .isAfter(DateTime.now()) ||
+                                                invoice.invoiceStatus == "open"
+                                            ? Text(
+                                                'Diese Rechnung is ab geläuft ',
+                                                style: GoogleFonts.lato(
+                                                  fontSize: 12,
+                                                ),
+                                              )
+                                            : Text(
+                                                'Diese Rechnung läuft am ${invoice.overDuo!.day}.${invoice.overDuo!.month}.${invoice.overDuo!.year} ab: ',
+                                                style: GoogleFonts.lato(
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                        // Botão de Download
+                                        ElevatedButton(
+                                          onPressed: () async {
+                                            await _showPdfPopup(
+                                                context, invoice.invoiceUrl!);
+                                          },
+                                          child: Text('Rechnung Viewer'),
+                                        ),
+                                        Divider(), // Adicione uma linha de divisão entre as faturas
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
-                            children: [
-                              // Lista de Faturas
-                              ListView.builder(
-                                primary: false,
-                                shrinkWrap: true,
-                                itemCount: appointment.invoicesModel!.length,
-                                itemBuilder: (context, index) {
-                                  InvoiceModel invoice =
-                                      appointment.invoicesModel![index];
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          // Ícone para o status da fatura (open, completed, etc.)
-                                          invoice.overDuo!
-                                                  .isAfter(DateTime.now())
-                                              ? Icon(Icons.pending,
-                                                  color: preto)
-                                              : Icon(Icons.pending,
-                                                  color: verde),
-                                          SizedBox(width: 5),
-                                          Expanded(
-                                            child: Text(
-                                              "${extractFileName(invoice.invoiceUrl!)}",
-                                              style: GoogleFonts.lato(
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      invoice.overDuo!
-                                                  .isAfter(DateTime.now()) ||
-                                              invoice.invoiceStatus == "open"
-                                          ? Text(
-                                              'Diese Rechnung is ab geläuft ',
-                                              style: GoogleFonts.lato(
-                                                fontSize: 12,
-                                              ),
-                                            )
-                                          : Text(
-                                              'Diese Rechnung läuft am ${invoice.overDuo!.day}.${invoice.overDuo!.month}.${invoice.overDuo!.year} ab: ',
-                                              style: GoogleFonts.lato(
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                      // Botão de Download
-                                      ElevatedButton(
-                                        onPressed: () async {
-                                          await _showPdfPopup(
-                                              context, invoice.invoiceUrl!);
-                                        },
-                                        child: Text('Rechnung Viewer'),
-                                      ),
-                                      Divider(), // Adicione uma linha de divisão entre as faturas
-                                    ],
-                                  );
-                                },
-                              ),
-                            ],
                           ),
                         ],
                       ),
@@ -249,14 +253,7 @@ Future<void> _showPdfPopup(BuildContext context, String pdfUrl) async {
         content: Container(
           width: double.maxFinite,
           height: Get.width,
-          child: WebviewScaffold(
-            url: pdfUrl,
-            withZoom: true,
-            withLocalStorage: true,
-            hidden: true,
-            allowFileURLs: true,
-            withLocalUrl: true,
-          ),
+          child: SfPdfViewer.network("$pdfUrl"),
         ),
         actions: [
           TextButton(
@@ -267,7 +264,7 @@ Future<void> _showPdfPopup(BuildContext context, String pdfUrl) async {
           ),
           IconButton(
             icon: Icon(Icons.download),
-            onPressed: () {},
+            onPressed: () async {},
           )
         ],
       );

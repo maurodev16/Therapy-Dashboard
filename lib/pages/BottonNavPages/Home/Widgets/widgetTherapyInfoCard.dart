@@ -8,6 +8,7 @@ import '../../../../Controller/InvoiceController.dart';
 import '../../../../Utils/Colors.dart';
 
 Widget widgetTherapyInfoCard(
+  Color? color,
   String firstname,
   String lastname,
   DateTime date,
@@ -21,6 +22,7 @@ Widget widgetTherapyInfoCard(
 ) {
   return GetBuilder<InvoiceController>(builder: (invoiceController) {
     return Card(
+      color: color,
       elevation: 3,
       margin: EdgeInsets.all(10),
       child: Padding(
