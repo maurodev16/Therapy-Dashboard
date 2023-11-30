@@ -107,20 +107,15 @@ class AuthController extends GetxController with StateMixin<UserModel> {
           lastname!.value = _userData.value.lastname!;
           userType!.value = _userData.value.userType!;
           token!.value = _userData.value.token!;
-        } else {
-          Fluttertoast.showToast(
-            msg: 'Error, invalid Field',
-            backgroundColor: verde,
-          );
         }
       } catch (error) {
         print(error.toString());
         await handleLoginError(error.toString());
       } finally {
         isLoadingLogin.value = false;
+        update();
       }
     }
-    update();
   }
 
   Future<void> handleLoginError(String error) async {

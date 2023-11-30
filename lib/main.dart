@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -15,6 +16,7 @@ import 'pages/Authentication/Pages/LoginPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
   await initializeDateFormatting();
@@ -37,7 +39,7 @@ class MainApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         defaultTransition: Transition.zoom,
         // translations: TranslationService(),
-       //  locale: TranslationService.locale,
+        //  locale: TranslationService.locale,
         // fallbackLocale: TranslationService.fallbackLocale,
         theme: Theme.of(context).copyWith(
           appBarTheme: Theme.of(context).appBarTheme.copyWith(
@@ -51,7 +53,6 @@ class MainApp extends StatelessWidget {
         ),
         home: UpgradeAlert(
           upgrader: Upgrader(
-             
               dialogStyle: GetPlatform.isAndroid
                   ? UpgradeDialogStyle.material
                   : UpgradeDialogStyle.cupertino),
@@ -63,7 +64,6 @@ class MainApp extends StatelessWidget {
             },
           ),
         ),
-       
       );
     });
   }

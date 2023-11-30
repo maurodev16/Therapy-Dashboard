@@ -182,12 +182,10 @@ class UserController extends GetxController with StateMixin<UserModel> {
         print('Novo adminId: ${createdUser!.adminId}');
         if (createdUser.adminId != null) {
           change(createdUser, status: RxStatus.success());
-          
+
           Fluttertoast.showToast(
-              msg:
-                  "Ihr Konto wurde erfolgreich erstellt."
-                      .tr);
-          Get.to(()=>LoginPage());
+              msg: "Ihr Konto wurde erfolgreich erstellt.".tr);
+          Get.to(() => LoginPage());
 
           isLoading.value = false;
           _userData.update((user) {
@@ -206,14 +204,15 @@ class UserController extends GetxController with StateMixin<UserModel> {
           return createdUser;
         }
       } catch (error) {
-        Get.to(()=>CreateUserPage());
+        Get.to(() => CreateUserPage());
         await handleRegisterError(error.toString());
         error.printError();
       } finally {
         isLoading.value = false;
+        update();
       }
     }
-    update();
+
     return _userData.value;
   }
 
