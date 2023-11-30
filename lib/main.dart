@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -14,13 +15,57 @@ import 'Repository/RespositoryAuth.dart';
 import 'Utils/Colors.dart';
 import 'pages/Authentication/Pages/LoginPage.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  try {
+    String? fcmToken = await FirebaseMessaging.instance.getToken();
+    if (fcmToken != null) {
+      print("FCM Token: $fcmToken");
+    } else {
+      print("Error: FCM Token is null");
+    }
+  } catch (e) {
+    print("Error getting FCM Token: $e");
+  }
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    print("onMessageOpenedApp: $message");
+  });
+
+  FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
+    // Lógica para manipular mensagens em segundo plano
+    print("Handling a background message: ${message.data}");
+    // Reagir à notificação, se houver
+  });
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print("Mensagem recebida: $message");
+
+    // Acessar dados específicos da mensagem
+    print("Dados da mensagem: ${message.data}");
+
+    // Exemplo de acesso a dados específicos, como título e corpo da notificação
+    String? title = message.notification?.title;
+    String? body = message.notification?.body;
+
+    if (title != null && body != null) {
+      print("Título: $title, Corpo: $body");
+    }
+
+    // Lógica adicional conforme necessário
+  });
+
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
   await initializeDateFormatting();
-//GetStorage().erase();
+
+  /// GetStorage().erase();
   runApp(MainApp());
 }
 
