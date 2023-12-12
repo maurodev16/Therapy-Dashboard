@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconly/iconly.dart';
@@ -36,6 +35,7 @@ class LoginPage extends GetView<AuthController> {
                             style: TextStyle(color: vermelho),
                             enabled: !controller.isLoadingLogin.value,
                             keyboardType: TextInputType.emailAddress,
+                            textCapitalization: TextCapitalization.none,
                             decoration: InputDecoration(
                               fillColor: branco,
                               errorText: controller.errorEmail,
@@ -353,7 +353,7 @@ class LoginPage extends GetView<AuthController> {
                                 ),
                                 onPressed: () {
                                   controller.cleanInputs();
-                                  Get.to(()=>CreateUserPage());
+                                  Get.to(() => CreateUserPage());
                                 }),
                           ),
                         ],

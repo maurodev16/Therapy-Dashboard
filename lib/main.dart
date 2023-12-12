@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -17,17 +16,11 @@ import 'pages/Authentication/Pages/LoginPage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  //await Firebase.initializeApp();
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
   await initializeDateFormatting();
-//Remove this method to stop OneSignal Debugging
-  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-
-  OneSignal.initialize("a3f2e13b-8bcc-4692-ac3e-b4bad18b32bc");
-
-// The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-  OneSignal.Notifications.requestPermission(true);
+  await settingOneSignal();
 
   /// GetStorage().erase();
   runApp(MainApp());
@@ -76,4 +69,11 @@ class MainApp extends StatelessWidget {
       );
     });
   }
+}
+
+Future<void> settingOneSignal() async {
+  OneSignal.initialize(dotenv.env["ONESIGNAL_APP_ID"]!);
+
+// The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+  // await OneSignal.Notifications.requestPermission(true);
 }

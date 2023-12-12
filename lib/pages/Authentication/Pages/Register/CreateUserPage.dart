@@ -85,7 +85,7 @@ class CreateUserPage extends StatelessWidget {
                       ),
                       onChanged: (value) {
                         controller.firstname.value = value;
-                        print( controller.firstname.value);
+                        print(controller.firstname.value);
                       },
                     ),
                   ),
@@ -137,8 +137,7 @@ class CreateUserPage extends StatelessWidget {
                       ),
                       onChanged: (value) {
                         controller.lastname.value = value;
-                        print( controller.lastname.value);
-
+                        print(controller.lastname.value);
                       },
                     ),
                   ),
@@ -180,20 +179,19 @@ class CreateUserPage extends StatelessWidget {
                             width: 1,
                           ),
                         ),
-                 
                         filled: true,
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 16.0, horizontal: 16.0),
                       ),
                       onChanged: (value) {
                         controller.phone.value = value;
-                        print( controller.phone.value);
-
+                        print(controller.phone.value);
                       },
                     ),
-                  ),),
-               SizedBox(height: 0.03 * Get.height),
-                
+                  ),
+                ),
+                SizedBox(height: 0.03 * Get.height),
+
                 ///
                 Container(
                   width: 0.95 * Get.width,
@@ -202,11 +200,12 @@ class CreateUserPage extends StatelessWidget {
                       style: TextStyle(color: vermelho),
                       enabled: !controller.isLoading.value,
                       keyboardType: TextInputType.emailAddress,
+                      textCapitalization: TextCapitalization.none,
                       decoration: InputDecoration(
                         fillColor: branco,
                         errorText: controller.errorEmail,
                         labelText: 'Email'.tr,
-                       labelStyle:
+                        labelStyle:
                             GoogleFonts.lato(color: vermelho, fontSize: 16.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -239,8 +238,7 @@ class CreateUserPage extends StatelessWidget {
                       ),
                       onChanged: (value) {
                         controller.email.value = value;
-                        print( controller.email.value);
-
+                        print(controller.email.value);
                       },
                     ),
                   ),
@@ -270,7 +268,7 @@ class CreateUserPage extends StatelessWidget {
                                   color: vermelho),
                         ),
                         labelText: 'Passwort'.tr,
-                        labelStyle:  
+                        labelStyle:
                             GoogleFonts.lato(color: vermelho, fontSize: 16.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -299,8 +297,7 @@ class CreateUserPage extends StatelessWidget {
                       ),
                       onChanged: (value) {
                         controller.password.value = value;
-                        print( controller.password.value);
-
+                        print(controller.password.value);
                       },
                     ),
                   ),
@@ -361,8 +358,7 @@ class CreateUserPage extends StatelessWidget {
                       ),
                       onChanged: (value) {
                         controller.confirmPassword.value = value;
-                          print( controller.confirmPassword.value);
-
+                        print(controller.confirmPassword.value);
                       },
                     ),
                   ),
