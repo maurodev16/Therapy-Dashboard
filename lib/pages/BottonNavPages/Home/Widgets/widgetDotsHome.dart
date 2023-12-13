@@ -4,9 +4,8 @@ import 'package:therapy_dashboard/Utils/Colors.dart';
 
 import '../../../../Controller/InvoiceController.dart';
 
-class ActionsDotWidget extends StatelessWidget {
+class ActionsDotWidget extends GetView<InvoiceController> {
   ActionsDotWidget({Key? key}) : super(key: key);
-  final InvoiceController invoiceController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -20,48 +19,56 @@ class ActionsDotWidget extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  Badge.count(
-                    count: invoiceController.openInvoices.length,
-                    child: Icon(
-                      Icons.pending,
-                      size: 25,
-                      color: verde,
+                  Obx(
+                    () => Badge.count(
+                      count: controller.openInvoices.length,
+                      child: Icon(
+                        Icons.pending,
+                        size: 25,
+                        color: verde,
+                      ),
                     ),
                   ),
                 ],
               ),
               Stack(
                 children: [
-                  Badge.count(
-                    count: invoiceController.doneInvoices.length,
-                    child: Icon(
-                      Icons.pending,
-                      size: 25,
-                      color: amarelo,
+                  Obx(
+                    () => Badge.count(
+                      count: controller.paidInvoices.length,
+                      child: Icon(
+                        Icons.pending,
+                        size: 25,
+                        color: amarelo,
+                      ),
                     ),
                   ),
                 ],
               ),
               Stack(
                 children: [
-                  Badge.count(
-                    count: invoiceController.stornedInvoices.length,
-                    child: Icon(
-                      Icons.pending,
-                      size: 25,
-                      color: azul,
+                  Obx(
+                    () => Badge.count(
+                      count: controller.stornedInvoices.length,
+                      child: Icon(
+                        Icons.pending,
+                        size: 25,
+                        color: azul,
+                      ),
                     ),
                   ),
                 ],
               ),
               Stack(
                 children: [
-                  Badge.count(
-                    count: invoiceController.overdueInvoices.length,
-                    child: Icon(
-                      Icons.pending,
-                      size: 25,
-                      color: preto,
+                  Obx(
+                    () => Badge.count(
+                      count: controller.overdueInvoices.length,
+                      child: Icon(
+                        Icons.pending,
+                        size: 25,
+                        color: preto,
+                      ),
                     ),
                   ),
                 ],

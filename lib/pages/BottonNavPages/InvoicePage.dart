@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_dashboard/Utils/Colors.dart';
 
 import '../../Controller/InvoiceController.dart';
 import '../../Models/InvoiceModel.dart';
 
 class InvoicePage extends StatelessWidget {
+  final InvoiceController invoiceController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,35 +25,31 @@ class InvoicePage extends StatelessWidget {
               constraints: BoxConstraints.expand(height: Get.height * 0.1),
               child: TabBar(
                 tabs: [
-                  Tab(
-                    text: 'Offene',
-                    icon: Hero(
-                      tag: "tagVermelho",
-                      child: Icon(
-                        Icons.pending,
-                        color: verde,
-                        size: 25,
-                      ),
+                  Obx(() => Tab(
+                      text: '${invoiceController.openInvoices.length} Offene',
+                      icon: Hero(
+                          tag: "tagVermelho",
+                          child: Icon(Icons.pending, color: verde, size: 25)))),
+                  Obx(
+                    () => Tab(
+                      text: '${invoiceController.paidInvoices.length} Bezahlt',
+                      icon: Hero(
+                          tag: "tgVerde",
+                          child: Icon(Icons.pending, color: amarelo, size: 25)),
                     ),
                   ),
-                  Tab(
-                    text: 'Bezahlt',
-                    icon: Hero(
-                      tag: "tgVerde",
-                      child: Icon(Icons.pending, color: amarelo, size: 25),
-                    ),
-                  ),
-                  Tab(
-                      text: 'Storniert',
+                  Obx(() => Tab(
+                      text:
+                          '${invoiceController.stornedInvoices.length} Storniert',
                       icon: Hero(
                           tag: "tagAzul",
-                          child: Icon(Icons.pending, color: azul, size: 25))),
-                  Tab(
-                      text: 'überfällig',
+                          child: Icon(Icons.pending, color: azul, size: 25)))),
+                  Obx(() => Tab(
+                      text:
+                          '${invoiceController.overdueInvoices.length} überfällig',
                       icon: Hero(
-                        tag: "tagPreto",
-                        child: Icon(Icons.pending, color: preto, size: 25),
-                      )),
+                          tag: "tagPreto",
+                          child: Icon(Icons.pending, color: preto, size: 25)))),
                 ],
               ),
             ),
@@ -59,16 +57,16 @@ class InvoicePage extends StatelessWidget {
               child: TabBarView(
                 children: [
                   // Content of "Open" tab
-                  InvoiceList(status: 'Open'),
+                  OpenInvoiceListView(status: 'Open'),
 
                   // Content of "completed" tab
-                  InvoiceList(status: 'Completed'),
+                  PaidInvoiceListView(status: 'Paid'),
 
                   // Content of "Pending" tab
-                  InvoiceList(status: 'Pending'),
+                  RefundedInvoiceListView(status: 'Refunded'),
 
                   //Content of "Overduo" tab
-                  InvoiceList(status: 'OverDuo'),
+                  OverDuoInvoiceListView(status: 'OverDuo'),
                 ],
               ),
             ),
@@ -79,25 +77,83 @@ class InvoicePage extends StatelessWidget {
   }
 }
 
-class InvoiceList extends StatelessWidget {
+///
+class OpenInvoiceListView extends StatelessWidget {
+  final InvoiceController invoiceController = Get.find();
   final String status;
 
-  InvoiceList({required this.status});
+  OpenInvoiceListView({required this.status});
 
   @override
   Widget build(BuildContext context) {
-    List<InvoiceModel> invoices = InvoiceController.to.overdueInvoices;
-
     return ListView.builder(
-      itemCount: invoices.length,
+      itemCount: invoiceController.openInvoices.length,
       itemBuilder: (context, index) {
-        InvoiceModel invoice = invoices[index];
+        InvoiceModel invoice = invoiceController.openInvoices[index];
         return InvoiceCard(invoice: invoice);
       },
     );
   }
 }
 
+///
+class PaidInvoiceListView extends StatelessWidget {
+  final InvoiceController invoiceController = Get.find();
+  final String status;
+
+  PaidInvoiceListView({required this.status});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: invoiceController.paidInvoices.length,
+      itemBuilder: (context, index) {
+        InvoiceModel invoice = invoiceController.paidInvoices[index];
+        return InvoiceCard(invoice: invoice);
+      },
+    );
+  }
+}
+
+//////
+class RefundedInvoiceListView extends StatelessWidget {
+  final InvoiceController invoiceController = Get.find();
+  final String status;
+
+  RefundedInvoiceListView({required this.status});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: invoiceController.stornedInvoices.length,
+      itemBuilder: (context, index) {
+        InvoiceModel invoice = invoiceController.stornedInvoices[index];
+        return InvoiceCard(invoice: invoice);
+      },
+    );
+  }
+}
+
+//////
+class OverDuoInvoiceListView extends StatelessWidget {
+  final InvoiceController invoiceController = Get.find();
+  final String status;
+
+  OverDuoInvoiceListView({required this.status});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: invoiceController.overdueInvoices.length,
+      itemBuilder: (context, index) {
+        InvoiceModel invoice = invoiceController.overdueInvoices[index];
+        return InvoiceCard(invoice: invoice);
+      },
+    );
+  }
+}
+
+///
 class InvoiceCard extends StatelessWidget {
   final InvoiceModel invoice;
 
@@ -109,12 +165,12 @@ class InvoiceCard extends StatelessWidget {
 
     switch (invoice.invoiceStatus) {
       case 'open':
-        icon = Icon(Icons.pending, color: vermelho);
-        break;
-      case 'completed':
         icon = Icon(Icons.pending, color: verde);
         break;
-      case 'pending':
+      case 'paid':
+        icon = Icon(Icons.pending, color: amarelo);
+        break;
+      case 'refunded':
         icon = Icon(Icons.pending, color: azul);
         break;
       case 'overduo':
@@ -126,21 +182,44 @@ class InvoiceCard extends StatelessWidget {
       elevation: 3,
       margin: EdgeInsets.all(10),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                icon,
-                SizedBox(width: 5),
-                Text(invoice.invoiceUrl!),
-              ],
-            ),
-            Text('OverDuo: ${invoice.overDuo}'),
-          ],
+        padding: const EdgeInsets.all(5.0),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    child: Row(
+                      children: [
+                        icon,
+                        SizedBox(width: 5),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              Text(
+                "${extractFileName(invoice.invoiceUrl!)}",
+                style: GoogleFonts.lato(fontSize: 12),
+              ),
+              Text(
+                  'Überfälligkeitsdatum: ${invoice.overDuo!.day}.${invoice.overDuo!.month}.${invoice.overDuo!.year}'),
+            ],
+          ),
         ),
       ),
     );
+  }
+}
+
+String extractFileName(String url) {
+  int lastIndex = url.lastIndexOf("-");
+  if (lastIndex != -1) {
+    return url.substring(lastIndex + 1);
+  } else {
+    return url;
   }
 }

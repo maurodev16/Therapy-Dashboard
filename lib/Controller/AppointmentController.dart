@@ -7,6 +7,7 @@ import '../Models/AppointmentModel.dart';
 import '../Models/ServiceTypeModel.dart';
 import '../Utils/Colors.dart';
 import 'AuthController.dart';
+import 'InvoiceController.dart';
 
 class AppointmentController extends GetxController
     with StateMixin<List<AppointmentModel>> {
@@ -18,6 +19,7 @@ class AppointmentController extends GetxController
   RxList<AppointmentModel> doneAppoint = <AppointmentModel>[].obs;
   RxList<AppointmentModel> canceledAppoint = <AppointmentModel>[].obs;
   final auth = Get.find<AuthController>();
+  final InvoiceController invoiceController = Get.find();
 
   ////
   RxString id = ''.obs;
@@ -35,6 +37,7 @@ class AppointmentController extends GetxController
   @override
   void onInit() async {
     await getSeparateAppoints();
+    await invoiceController.getSeparateInvoice();
     super.onInit();
   }
 

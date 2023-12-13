@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:therapy_dashboard/Utils/Colors.dart';
 import 'package:therapy_dashboard/pages/Authentication/Pages/Register/CreateUserPage.dart';
@@ -25,7 +26,13 @@ class LoginPage extends GetView<AuthController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(height: Get.height * 0.2),
-                      Hero(tag: "tagLogo", child: FlutterLogo(size: 50)),
+                      Hero(
+                          tag: "tagLogo",
+                          child: Text(
+                            "Dasboard",
+                            style: GoogleFonts.tajawal(
+                                fontSize: 35, color: vermelho),
+                          )),
                       SizedBox(height: Get.height * 0.1),
 
                       Container(

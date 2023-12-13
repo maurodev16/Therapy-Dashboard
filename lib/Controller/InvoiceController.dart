@@ -19,17 +19,28 @@ class InvoiceController extends GetxController
   static InvoiceController get to => Get.find();
   List<InvoiceModel> allInvoices = <InvoiceModel>[].obs;
   List<InvoiceModel> openInvoices = <InvoiceModel>[].obs;
-  List<InvoiceModel> doneInvoices = <InvoiceModel>[].obs;
+  List<InvoiceModel> paidInvoices = <InvoiceModel>[].obs;
   List<InvoiceModel> stornedInvoices = <InvoiceModel>[].obs;
   List<InvoiceModel> overdueInvoices = <InvoiceModel>[].obs;
+  RxBool isAllInvoiceLoading = false.obs;
+  RxBool isOpenInvoicesLoading = false.obs;
+  RxBool isDoneInvoicesLoading = false.obs;
+  RxBool isStornedInvoicesLoading = false.obs;
+  RxBool isOverdueInvoicesLoading = false.obs;
 
   RxString pickedFilename = "".obs;
   Rx<DateTime> rxOverduo = DateTime.now().obs;
+  RxString rxInvoiceStatus = "open".obs;
   RxBool isLoading = false.obs;
+  late Rx<InvoiceModel> _invoiceModel = InvoiceModel().obs;
+  Rx<InvoiceModel> get getInvoiceData => this._invoiceModel;
+  set setInvoiceData(Rx<InvoiceModel> invoiceData) =>
+      this._invoiceModel = invoiceData;
+  final List<String> statusOptions = ["open", "paid", "refunded", "overduo"];
+
   @override
   void onInit() async {
-    await separateInvoice();
-
+    await getSeparateInvoice();
     super.onInit();
   }
 
@@ -50,6 +61,7 @@ class InvoiceController extends GetxController
           userObj: appointmentModel.value.userModel,
           appointmentObj: appointmentModel.value,
           overDuo: rxOverduo.value,
+          invoiceStatus: rxInvoiceStatus.value,
         ).obs;
         InvoiceModel? createdInvoice = await _repositoryInvoice.create(
             invoiceModel.value, _pickedFile.value!);
@@ -102,6 +114,58 @@ class InvoiceController extends GetxController
     update();
   }
 
+  // Método para separar os pagamentos vencidos e os pedidos de estorno
+  Future<List<InvoiceModel>> getSeparateInvoice() async {
+    isAllInvoiceLoading.value = true;
+    isOpenInvoicesLoading.value = true;
+    isDoneInvoicesLoading.value = true;
+    isStornedInvoicesLoading.value = true;
+    isOverdueInvoicesLoading.value = true;
+
+    // try {
+    var response = await _repositoryInvoice.getAllInvoice();
+    if (response.isNotEmpty) {
+      allInvoices.clear();
+      openInvoices.clear();
+      paidInvoices.clear();
+      stornedInvoices.clear();
+      overdueInvoices.clear();
+      for (InvoiceModel invoice in response) {
+        allInvoices.add(invoice);
+        if (invoice.invoiceStatus!.contains("open")) {
+          openInvoices.add(invoice);
+        } else if (invoice.invoiceStatus!.contains("paid")) {
+          paidInvoices.add(invoice);
+        } else if (invoice.invoiceStatus!.contains("refunded")) {
+          stornedInvoices.add(invoice);
+        } else if (invoice.invoiceStatus!.contains("overduo")) {
+          overdueInvoices.add(invoice);
+        } else {
+          allInvoices.add(invoice);
+        }
+      }
+
+      change(response, status: RxStatus.success());
+    } else {
+      change([], status: RxStatus.empty());
+      // Limpe as listas existentes.
+      return [];
+    }
+    // }
+    // catch (e) {
+    //   change([], status: RxStatus.error());
+    //   print(e.toString());
+    // } finally {
+    //   isAllInvoiceLoading.value = false;
+    //   isOpenInvoicesLoading.value = false;
+    //   isDoneInvoicesLoading.value = false;
+    //   isStornedInvoicesLoading.value = false;
+    //   isOverdueInvoicesLoading.value = false;
+    //   update();
+    // }
+    return allInvoices;
+  }
+
   Rx<XFile?> _pickedFile = Rx<XFile?>(null);
   String? _base64File;
 
@@ -134,34 +198,5 @@ class InvoiceController extends GetxController
     }
 
     update();
-  }
-
-  late Rx<InvoiceModel> _invoiceModel = InvoiceModel().obs;
-
-  Rx<InvoiceModel> get getInvoiceData => this._invoiceModel;
-
-  set setInvoiceData(Rx<InvoiceModel> invoiceData) =>
-      this._invoiceModel = invoiceData;
-
-  bool isPaymentDue(InvoiceModel invoice) {
-    // Verifica se a data de vencimento é anterior à data atual
-    return invoice.overDuo!.isBefore(DateTime.now());
-  }
-
-  // Método para separar os pagamentos vencidos e os pedidos de estorno
-  Future<void> separateInvoice() async {
-    for (InvoiceModel invoice in allInvoices) {
-      bool isDue = isPaymentDue(invoice);
-      if (isDue) {
-        // Adicionar à lista de pagamentos vencidos
-        overdueInvoices.add(invoice);
-      } else {
-        // Adicionar à lista de pedidos de estorno (se necessário)
-        if (invoice.invoiceStatus == 'open') {
-          stornedInvoices.add(invoice);
-        }
-      }
-      update();
-    }
   }
 }

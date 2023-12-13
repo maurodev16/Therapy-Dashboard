@@ -33,6 +33,7 @@ class CreateInvoicePage extends StatelessWidget {
                   leading: IconButton(
                     onPressed: () async {
                       await appointmentController.getSeparateAppoints();
+                      await invoiceController.getSeparateInvoice();
                       Get.back();
                     },
                     icon: Icon(Icons.arrow_back_ios_new_outlined),
@@ -99,6 +100,42 @@ class CreateInvoicePage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 16),
+
+                      Row(
+                        children: [
+                          Text("Rechnungsstatus:"),
+                          SizedBox(width: 10),
+                          Obx(
+                            () => DropdownButton<String>(
+                              value: invoiceController.rxInvoiceStatus.value,
+                              onChanged: (String? newValue) {
+                                if (newValue != null) {
+                                  invoiceController.rxInvoiceStatus.value =
+                                      newValue;
+                                  print(
+                                      invoiceController.rxInvoiceStatus.value);
+                                }
+                              },
+                              items: invoiceController.statusOptions
+                                  .map((String status) {
+                                return DropdownMenuItem<String>(
+                                  value: status,
+                                  child: status == "open"
+                                      ? Text("Open")
+                                      : status == "paid"
+                                          ? Text("Bezahlt")
+                                          : status == "refunded"
+                                              ? Text("Zurückerstattet")
+                                              : status == "overduo"
+                                                  ? Text("Überfällig")
+                                                  : Text("Open"),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16),
                       Row(
                         children: [
                           Obx(
@@ -109,9 +146,7 @@ class CreateInvoicePage extends StatelessWidget {
                                     fontSize: 15, color: Colors.white),
                               ),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    vermelho, // Defina a cor de fundo como vermelho
-                              ),
+                                  backgroundColor: vermelho),
                               icon: Icon(Icons.upload_file_rounded),
                               onPressed:
                                   InvoiceController.to.isLoading.value == false
@@ -270,4 +305,45 @@ Future<void> _showPdfPopup(BuildContext context, String pdfUrl) async {
       );
     },
   );
+}
+
+class StatusDropdown extends StatefulWidget {
+  final String initialValue;
+  final Function(String) onChanged;
+
+  StatusDropdown({required this.initialValue, required this.onChanged});
+
+  @override
+  _StatusDropdownState createState() => _StatusDropdownState();
+}
+
+class _StatusDropdownState extends State<StatusDropdown> {
+  late String _selectedStatus;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedStatus = widget.initialValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: _selectedStatus,
+      onChanged: (String? newValue) {
+        if (newValue != null) {
+          setState(() {
+            _selectedStatus = newValue;
+            widget.onChanged(newValue);
+          });
+        }
+      },
+      items: ["open", "paid", "refunded", "overduo"].map((String status) {
+        return DropdownMenuItem<String>(
+          value: status,
+          child: Text(status),
+        );
+      }).toList(),
+    );
+  }
 }
