@@ -61,29 +61,30 @@ class RepositoryInvoice extends GetConnect implements IRepositoryInvoice {
   @override
   Future<List<InvoiceModel>> getAllInvoice() async {
     final response = await httpClient.get('invoice/fetch-invoices');
-    if (response.status.isOk) {
-      var jsonResponse = await response.body;
-      List<dynamic> postList = jsonResponse;
-      return postList
-          .map<InvoiceModel>((item) => InvoiceModel.fromJson(item))
-          .toList();
-    }
+    try {
+      if (response.status.isOk) {
+        var jsonResponse = await response.body;
+        List<dynamic> postList = jsonResponse;
+        return postList
+            .map<InvoiceModel>((item) => InvoiceModel.fromJson(item))
+            .toList();
+      }
 
-    if (response.status.hasError) {
-      return [];
-    }
-    if (response.status.isNotFound) {
-      return [];
-    }
-    if (response.status.connectionError) {
-      return [];
-    }
-    print("Body getAllInvoice Response:::::::::::::${response.bodyString}");
+      if (response.status.hasError) {
+        return [];
+      }
+      if (response.status.isNotFound) {
+        return [];
+      }
+      if (response.status.connectionError) {
+        return [];
+      }
+      print("Body getAllInvoice Response:::::::::::::${response.bodyString}");
 
-    throw Exception(response.bodyString);
-    // } catch (e) {
-    //   throw Exception(e.toString());
-    // }
+      throw Exception(response.bodyString);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
   @override

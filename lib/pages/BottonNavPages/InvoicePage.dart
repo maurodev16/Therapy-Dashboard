@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:therapy_dashboard/GlobalWidgets/loadingWidget.dart';
 import 'package:therapy_dashboard/Utils/Colors.dart';
 
 import '../../Controller/InvoiceController.dart';
@@ -86,12 +87,26 @@ class OpenInvoiceListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: invoiceController.openInvoices.length,
-      itemBuilder: (context, index) {
-        InvoiceModel invoice = invoiceController.openInvoices[index];
-        return InvoiceCard(invoice: invoice);
-      },
+    return Obx(
+      () => ListView.builder(
+        itemCount: invoiceController.openInvoices.length,
+        itemBuilder: (context, index) {
+          InvoiceModel invoice = invoiceController.openInvoices[index];
+          return invoiceController.isOpenInvoicesLoading.value
+              ? Center(
+                  child: loadingWidget(),
+                )
+              : invoiceController.status.isEmpty
+                  ? Center(child: Text("data"))
+                  : invoiceController.status.isError
+                      ? Center(
+                          child: Icon(Icons.error_outline_rounded),
+                        )
+                      : invoiceController.status.isSuccess
+                          ? InvoiceCard(invoice: invoice)
+                          : SizedBox.shrink();
+        },
+      ),
     );
   }
 }
@@ -105,12 +120,29 @@ class PaidInvoiceListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: invoiceController.paidInvoices.length,
-      itemBuilder: (context, index) {
-        InvoiceModel invoice = invoiceController.paidInvoices[index];
-        return InvoiceCard(invoice: invoice);
-      },
+    return Obx(
+      () => ListView.builder(
+        itemCount: invoiceController.paidInvoices.length,
+        itemBuilder: (context, index) {
+          InvoiceModel invoice = invoiceController.paidInvoices[index];
+          return invoiceController.isPaidInvoicesLoading.value
+              ? Center(
+                  child: loadingWidget(),
+                )
+              : invoiceController.paidInvoices.isEmpty
+                  ? Center(
+                      child: Icon(
+                      Icons.document_scanner,
+                    ))
+                  : invoiceController.status.isError
+                      ? Center(
+                          child: Icon(Icons.error_outline_rounded),
+                        )
+                      : invoiceController.status.isSuccess
+                          ? InvoiceCard(invoice: invoice)
+                          : SizedBox.shrink();
+        },
+      ),
     );
   }
 }
@@ -124,12 +156,26 @@ class RefundedInvoiceListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: invoiceController.stornedInvoices.length,
-      itemBuilder: (context, index) {
-        InvoiceModel invoice = invoiceController.stornedInvoices[index];
-        return InvoiceCard(invoice: invoice);
-      },
+    return Obx(
+      () => ListView.builder(
+        itemCount: invoiceController.stornedInvoices.length,
+        itemBuilder: (context, index) {
+          InvoiceModel invoice = invoiceController.stornedInvoices[index];
+          return invoiceController.isStornedInvoicesLoading.value
+              ? Center(
+                  child: loadingWidget(),
+                )
+              : invoiceController.stornedInvoices.isEmpty
+                  ? Center(child: Icon(Icons.document_scanner))
+                  : invoiceController.status.isError
+                      ? Center(
+                          child: Icon(Icons.error_outline_rounded),
+                        )
+                      : invoiceController.status.isSuccess
+                          ? InvoiceCard(invoice: invoice)
+                          : SizedBox.shrink();
+        },
+      ),
     );
   }
 }
@@ -147,7 +193,22 @@ class OverDuoInvoiceListView extends StatelessWidget {
       itemCount: invoiceController.overdueInvoices.length,
       itemBuilder: (context, index) {
         InvoiceModel invoice = invoiceController.overdueInvoices[index];
-        return InvoiceCard(invoice: invoice);
+        return invoiceController.isOverdueInvoicesLoading.value
+            ? Center(
+                child: loadingWidget(),
+              )
+            : invoiceController.overdueInvoices.isEmpty
+                ? Center(
+                    child: Icon(
+                    Icons.document_scanner,
+                  ))
+                : invoiceController.status.isError
+                    ? Center(
+                        child: Icon(Icons.error_outline_rounded),
+                      )
+                    : invoiceController.status.isSuccess
+                        ? InvoiceCard(invoice: invoice)
+                        : SizedBox.shrink();
       },
     );
   }
@@ -202,11 +263,14 @@ class InvoiceCard extends StatelessWidget {
                 ],
               ),
               Text(
+                  'Kunder: ${invoice.userObj!.firstname} ${invoice.userObj!.lastname}'),
+              Text('Status: ${invoice.invoiceStatus}'),
+              Text(
                 "${extractFileName(invoice.invoiceUrl!)}",
                 style: GoogleFonts.lato(fontSize: 12),
               ),
               Text(
-                  'Überfälligkeitsdatum: ${invoice.overDuo!.day}.${invoice.overDuo!.month}.${invoice.overDuo!.year}'),
+                  'Fälligkeitsdatum: ${invoice.overDuo!.day}.${invoice.overDuo!.month}.${invoice.overDuo!.year}'),
             ],
           ),
         ),

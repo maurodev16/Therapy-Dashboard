@@ -24,7 +24,7 @@ class InvoiceController extends GetxController
   List<InvoiceModel> overdueInvoices = <InvoiceModel>[].obs;
   RxBool isAllInvoiceLoading = false.obs;
   RxBool isOpenInvoicesLoading = false.obs;
-  RxBool isDoneInvoicesLoading = false.obs;
+  RxBool isPaidInvoicesLoading = false.obs;
   RxBool isStornedInvoicesLoading = false.obs;
   RxBool isOverdueInvoicesLoading = false.obs;
 
@@ -118,51 +118,53 @@ class InvoiceController extends GetxController
   Future<List<InvoiceModel>> getSeparateInvoice() async {
     isAllInvoiceLoading.value = true;
     isOpenInvoicesLoading.value = true;
-    isDoneInvoicesLoading.value = true;
+    isPaidInvoicesLoading.value = true;
     isStornedInvoicesLoading.value = true;
     isOverdueInvoicesLoading.value = true;
 
-    // try {
-    var response = await _repositoryInvoice.getAllInvoice();
-    if (response.isNotEmpty) {
-      allInvoices.clear();
-      openInvoices.clear();
-      paidInvoices.clear();
-      stornedInvoices.clear();
-      overdueInvoices.clear();
-      for (InvoiceModel invoice in response) {
-        allInvoices.add(invoice);
-        if (invoice.invoiceStatus!.contains("open")) {
-          openInvoices.add(invoice);
-        } else if (invoice.invoiceStatus!.contains("paid")) {
-          paidInvoices.add(invoice);
-        } else if (invoice.invoiceStatus!.contains("refunded")) {
-          stornedInvoices.add(invoice);
-        } else if (invoice.invoiceStatus!.contains("overduo")) {
-          overdueInvoices.add(invoice);
-        } else {
+    try {
+      var response = await _repositoryInvoice.getAllInvoice();
+      if (response.isNotEmpty) {
+        allInvoices.clear();
+        openInvoices.clear();
+        paidInvoices.clear();
+        stornedInvoices.clear();
+        overdueInvoices.clear();
+        for (InvoiceModel invoice in response) {
           allInvoices.add(invoice);
+          if (invoice.invoiceStatus!.contains("open")) {
+            openInvoices.add(invoice);
+          } else if (invoice.invoiceStatus!.contains("paid")) {
+            paidInvoices.add(invoice);
+          } else if (invoice.invoiceStatus!.contains("refunded")) {
+            stornedInvoices.add(invoice);
+          } else if (invoice.invoiceStatus!.contains("overduo")) {
+            overdueInvoices.add(invoice);
+          } else {
+            allInvoices.add(invoice);
+          }
         }
+        change(response, status: RxStatus.success());
+      } else {
+        change([], status: RxStatus.empty());
+        allInvoices = [];
+        openInvoices = [];
+        paidInvoices = [];
+        stornedInvoices = [];
+        overdueInvoices = [];
+        return [];
       }
-
-      change(response, status: RxStatus.success());
-    } else {
-      change([], status: RxStatus.empty());
-      // Limpe as listas existentes.
-      return [];
+    } catch (e) {
+      change([], status: RxStatus.error());
+      print(e.toString());
+    } finally {
+      isAllInvoiceLoading.value = false;
+      isOpenInvoicesLoading.value = false;
+      isPaidInvoicesLoading.value = false;
+      isStornedInvoicesLoading.value = false;
+      isOverdueInvoicesLoading.value = false;
+      update();
     }
-    // }
-    // catch (e) {
-    //   change([], status: RxStatus.error());
-    //   print(e.toString());
-    // } finally {
-    //   isAllInvoiceLoading.value = false;
-    //   isOpenInvoicesLoading.value = false;
-    //   isDoneInvoicesLoading.value = false;
-    //   isStornedInvoicesLoading.value = false;
-    //   isOverdueInvoicesLoading.value = false;
-    //   update();
-    // }
     return allInvoices;
   }
 
