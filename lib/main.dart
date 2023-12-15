@@ -22,7 +22,7 @@ Future<void> main() async {
   await initializeDateFormatting();
   await settingOneSignal();
 
-  /// GetStorage().erase();
+  //GetStorage().erase();
   runApp(MainApp());
 }
 
