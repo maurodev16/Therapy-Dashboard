@@ -42,5 +42,13 @@ If you have any questions, suggestions, or concerns, please do not hesitate to c
 
 Thank you for your interest in the Dashboard-App and we wish you success in working with your patients!
 
-![Screenshot](screenshots/Screenshot_Nächste_Termin_Page.jpg)
+## Screenshots
+
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+  <img src="screenshots/Screenshot_1.jpg" alt="Screenshot 1" style="max-width: 100%;">
+  <img src="screenshots/Screenshot_2.jpg" alt="Screenshot 2" style="max-width: 100%;">
+  <img src="screenshots/Screenshot_3.jpg" alt="Screenshot 3" style="max-width: 100%;">
+  <!-- Add more images as needed -->
+</div>
+
 
