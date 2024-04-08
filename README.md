@@ -1,37 +1,43 @@
 # Dashboard-App
 
-Willkommen zur Dashboard-App für Therapeuten, einer Anwendung, die Ihnen hilft, Ihre Patienten und deren Fortschritt zu verwalten.
+Welcome to the Dashboard-App for therapists, an application designed to help you manage your patients and their progress.
 
-## Überblick
+## Overview
 
-Die Dashboard-App bietet Therapeuten eine Vielzahl von Funktionen und Werkzeugen, um ihre Patienten besser zu unterstützen und zu betreuen. Sie ermöglicht:
+The Dashboard-App offers therapists a variety of features and tools to better support and care for their patients. It allows you to:
 
-- Verwalten Sie Patientenprofile und verfolgen Sie deren Fortschritt über die Zeit.
-- Planen Sie Sitzungen und Termine mit Ihren Patienten.
-- Zugang zu Notizen und Berichten über den Fortschritt der Patienten.
-- Austausch von Ressourcen und Übungen mit Ihren Patienten.
+- Manage patient profiles and track their progress over time.
+- Schedule sessions and appointments with your patients.
+- Access notes and reports on patient progress.
+- Share resources and exercises with your patients.
 
 ## Installation
 
-Um die Dashboard-App auf Ihrem Gerät zu installieren, folgen Sie bitte diesen Schritten:
+To install the Dashboard-App on your device, please follow these steps:
 
-1. Laden Sie die neueste Version der App aus dem App Store herunter.
-2. Installieren Sie die App auf Ihrem Gerät.
-3. Öffnen Sie die App und folgen Sie den Anweisungen zur Einrichtung Ihres Kontos.
+1. Download the latest version of the app from the App Store.
+2. Install the app on your device.
+3. Open the app and follow the instructions to set up your account.
 
-## Mitwirken
+## Contributing
 
-Wir freuen uns über jede Form der Mitwirkung an der Weiterentwicklung der Dashboard-App. Wenn Sie Interesse haben, uns zu unterstützen, können Sie wie folgt vorgehen:
+We welcome any contributions to the development of the Dashboard-App. If you are interested in helping us, you can:
 
-- Überprüfen Sie den Quellcode und melden Sie Fehler oder Probleme.
-- Schreiben Sie Code, um neue Funktionen hinzuzufügen oder bestehende zu verbessern.
-- Teilen Sie Ihre Erfahrungen und Vorschläge zur Verbesserung der App.
+- Review the source code and report any bugs or issues.
+- Write code to add new features or improve existing ones.
+- Share your experiences and suggestions for improving the app.
 
-Bitte beachten Sie unsere [Mitwirkungsrichtlinien](CONTRIBUTING.md) für weitere Informationen.
+Please refer to our [Contribution Guidelines](CONTRIBUTING.md) for more information.
 
-## Kontakt
+## Technologies Used
 
-Wenn Sie Fragen, Anregungen oder Bedenken haben, zögern Sie bitte nicht, uns zu kontaktieren. Sie können uns per E-Mail unter support@dashboard-app.com erreichen.
+- Frontend: Flutter, Dart
+- Backend: Node.js, Express
+- Database: MongoDB
+- Additional Technologies: ACM6, JavaScript
 
-Wir bedanken uns für Ihr Interesse an der Dashboard-App und wünschen Ihnen eine erfolgreiche Arbeit mit Ihren Patienten!
+## Contact
 
+If you have any questions, suggestions, or concerns, please do not hesitate to contact us. You can reach us by email at support@dashboard-app.com.
+
+Thank you for your interest in the Dashboard-App and we wish you success in working with your patients!
