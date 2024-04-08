@@ -4,7 +4,7 @@ Welcome to the Dashboard-App for therapists, an application designed to help you
 
 ## Overview
 
-The Dashboard-App offers therapists a variety of features and tools to better support and care for their patients. It allows you to:
+The Dashboard-App offers therapists a variety of features and tools to better support and care for their patients. It allows you to=
 
 - Manage patient profiles and track their progress over time.
 - Schedule sessions and appointments with your patients.
@@ -45,20 +45,20 @@ Thank you for your interest in the Dashboard-App and we wish you success in work
 ## Screenshots
 
 <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;">
-  <img src="screenshots/Screenshot_1.jpg" alt="Screenshot 1" width: 300px; height: auto;">
-  <img src="screenshots/Screenshot_2.jpg" alt="Screenshot 2" width: 300px; height: auto;">
-  <img src="screenshots/Screenshot_3.jpg" alt="Screenshot 3" width: 300px; height: auto;">
-  <img src="screenshots/Screenshot_4.jpg" alt="Screenshot 4" width: 300px; height: auto;">
-  <img src="screenshots/Screenshot_5.jpg" alt="Screenshot 5" width: 300px; height: auto;">
-  <img src="screenshots/Screenshot_6.jpg" alt="Screenshot 6" width: 300px; height: auto;">
-  <img src="screenshots/Screenshot_7.jpg" alt="Screenshot 7" width: 300px; height: auto;">
-  <img src="screenshots/Screenshot_8.jpg" alt="Screenshot 8" width: 300px; height: auto;">
-  <img src="screenshots/Screenshot_9.jpg" alt="Screenshot 9" width: 300px; height: auto;">
-  <img src="screenshots/Screenshot_10.jpg" alt="Screenshot 10" width: 300px; height: auto;">
-  <img src="screenshots/Screenshot_11.jpg" alt="Screenshot 11" width: 300px; height: auto;">
-  <img src="screenshots/Screenshot_12.jpg" alt="Screenshot 12" width: 300px; height: auto;">
-  <img src="screenshots/Screenshot_13.jpg" alt="Screenshot 13" width: 300px; height: auto;">
-  <img src="screenshots/Screenshot_14.jpg" alt="Screenshot 14" width: 300px; height: auto;">
+  <img src="screenshots/Screenshot_1.jpg" alt="Screenshot 1" width= 300px; height= auto;">
+  <img src="screenshots/Screenshot_2.jpg" alt="Screenshot 2" width= 300px; height= auto;">
+  <img src="screenshots/Screenshot_3.jpg" alt="Screenshot 3" width= 300px; height= auto;">
+  <img src="screenshots/Screenshot_4.jpg" alt="Screenshot 4" width= 300px; height= auto;">
+  <img src="screenshots/Screenshot_5.jpg" alt="Screenshot 5" width= 300px; height= auto;">
+  <img src="screenshots/Screenshot_6.jpg" alt="Screenshot 6" width= 300px; height= auto;">
+  <img src="screenshots/Screenshot_7.jpg" alt="Screenshot 7" width= 300px; height= auto;">
+  <img src="screenshots/Screenshot_8.jpg" alt="Screenshot 8" width= 300px; height: auto;">
+  <img src="screenshots/Screenshot_9.jpg" alt="Screenshot 9" width= 300px; height= auto;">
+  <img src="screenshots/Screenshot_10.jpg" alt="Screenshot 10" width= 300px; height= auto;">
+  <img src="screenshots/Screenshot_11.jpg" alt="Screenshot 11" width= 300px; height= auto;">
+  <img src="screenshots/Screenshot_12.jpg" alt="Screenshot 12" width= 300px; height: auto;">
+  <img src="screenshots/Screenshot_13.jpg" alt="Screenshot 13" width= 300px; height= auto;">
+  <img src="screenshots/Screenshot_14.jpg" alt="Screenshot 14" width= 300px; height= auto;">
 
   <!-- Add more images as needed -->
 </div>
