@@ -1,3 +1,5 @@
+# Mauro Rodrigues - Portfolio
+
 # Dashboard-App
 
 Welcome to the Dashboard-App for therapists, an application designed to help you manage your patients and their progress.
