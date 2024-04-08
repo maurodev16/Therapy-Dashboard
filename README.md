@@ -45,20 +45,20 @@ Thank you for your interest in the Dashboard-App and we wish you success in work
 ## Screenshots
 
 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-  <img src="screenshots/screenshots_1.jpg" alt="Screenshot 1" style="max-width: 100%;">
-  <img src="screenshots/Screenshot_2.jpg" alt="Screenshot 2" style="max-width: 100%;">
-  <img src="screenshots/Screenshot_3.jpg" alt="Screenshot 3" style="max-width: 100%;">
-  <img src="screenshots/Screenshot_4.jpg" alt="Screenshot 4" style="max-width: 100%;">
-  <img src="screenshots/Screenshot_5.jpg" alt="Screenshot 5" style="max-width: 100%;">
-  <img src="screenshots/Screenshot_6.jpg" alt="Screenshot 6" style="max-width: 100%;">
-  <img src="screenshots/Screenshot_7.jpg" alt="Screenshot 7" style="max-width: 100%;">
-  <img src="screenshots/Screenshot_8.jpg" alt="Screenshot 8" style="max-width: 100%;">
-  <img src="screenshots/Screenshot_9.jpg" alt="Screenshot 9" style="max-width: 100%;">
-  <img src="screenshots/Screenshot_10.jpg" alt="Screenshot 10" style="max-width: 100%;">
-  <img src="screenshots/Screenshot_11.jpg" alt="Screenshot 11" style="max-width: 100%;">
-  <img src="screenshots/Screenshot_12.jpg" alt="Screenshot 12" style="max-width: 100%;">
-  <img src="screenshots/Screenshot_13.jpg" alt="Screenshot 13" style="max-width: 100%;">
-  <img src="screenshots/Screenshot_14.jpg" alt="Screenshot 14" style="max-width: 100%;">
+  <img src="screenshots/screenshot_1.jpg" alt="Screenshot 1" style="max-width: 300%;">
+  <img src="screenshots/Screenshot_2.jpg" alt="Screenshot 2" style="max-width: 300%;">
+  <img src="screenshots/Screenshot_3.jpg" alt="Screenshot 3" style="max-width: 300%;">
+  <img src="screenshots/Screenshot_4.jpg" alt="Screenshot 4" style="max-width: 300%;">
+  <img src="screenshots/Screenshot_5.jpg" alt="Screenshot 5" style="max-width: 300%;">
+  <img src="screenshots/Screenshot_6.jpg" alt="Screenshot 6" style="max-width: 300%;">
+  <img src="screenshots/Screenshot_7.jpg" alt="Screenshot 7" style="max-width: 300%;">
+  <img src="screenshots/Screenshot_8.jpg" alt="Screenshot 8" style="max-width: 300%;">
+  <img src="screenshots/Screenshot_9.jpg" alt="Screenshot 9" style="max-width: 300%;">
+  <img src="screenshots/Screenshot_10.jpg" alt="Screenshot 10" style="max-width: 300%;">
+  <img src="screenshots/Screenshot_11.jpg" alt="Screenshot 11" style="max-width: 300%;">
+  <img src="screenshots/Screenshot_12.jpg" alt="Screenshot 12" style="max-width: 300%;">
+  <img src="screenshots/Screenshot_13.jpg" alt="Screenshot 13" style="max-width: 300%;">
+  <img src="screenshots/Screenshot_14.jpg" alt="Screenshot 14" style="max-width: 300%;">
 
   <!-- Add more images as needed -->
 </div>
