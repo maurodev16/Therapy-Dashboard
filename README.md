@@ -59,8 +59,6 @@ Thank you for your interest in the Dashboard-App and we wish you success in work
   <img src="screenshots/Screenshot_12.jpg" alt="Screenshot 12" width= 300px; height: auto;">
   <img src="screenshots/Screenshot_13.jpg" alt="Screenshot 13" width= 300px; height= auto;">
   <img src="screenshots/Screenshot_14.jpg" alt="Screenshot 14" width= 300px; height= auto;">
-
-  <!-- Add more images as needed -->
 </div>
 
 
