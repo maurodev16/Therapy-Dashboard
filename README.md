@@ -41,3 +41,6 @@ Please refer to our [Contribution Guidelines](CONTRIBUTING.md) for more informat
 If you have any questions, suggestions, or concerns, please do not hesitate to contact us. You can reach us by email at test@dashboard-app.com.
 
 Thank you for your interest in the Dashboard-App and we wish you success in working with your patients!
+
+![Screenshot](screenshots/Screenshot_Nächste_Termin_Page.jpg)
+
